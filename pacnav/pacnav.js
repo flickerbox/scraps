@@ -1,3 +1,5 @@
+// pac nav
+
 // Create the instance of the class on dom ready.
 jQuery(document).ready(function($) {
 	new PacNav();
@@ -9,9 +11,9 @@ jQuery(document).ready(function($) {
 		// Variables of usefulness.
 		var $window   = $(window);
 		var $doc      = $(document);
-		var $pacNav   = $('.pac-nav');
-		var desktopNavItems = $pacNav.find('.pac-nav--desktop-nav > ul > li');
-		var mobileNavItems = $pacNav.find('.pac-nav--mobile-nav > ul > li');
+		var $pacNav   = $('.js-pac-nav');
+		var desktopNavItems = $pacNav.find('.js-pac-nav__desktop-nav > ul > li');
+		var mobileNavItems = $pacNav.find('.js-pac-nav__mobile-nav > ul > li');
 
 		var firstRun  = true; // run it twice on the first run.
 
@@ -39,7 +41,7 @@ jQuery(document).ready(function($) {
 
 			var debug = false;
 
-			$pacNav.removeClass('loaded').addClass('loading');
+			$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 
 
 			var swallowFlag = 0;
@@ -48,13 +50,13 @@ jQuery(document).ready(function($) {
 			viewportWidth = $window.width();
 
 			if (debug === true) {
-				$pacNav.addClass('debug');
+				$pacNav.addClass('js-pac-nav--debug');
 			}
 
 			// get the right Anchor position in order to compare vs the menu items
-			var rightAnchor = Math.ceil($pacNav.find('.pac-nav--right-anchor').offset().left);
+			var rightAnchor = Math.ceil($pacNav.find('.js-pac-nav__right-container').offset().left);
 			if (debug === true) {
-				$pacNav.find('.pac-nav--right-anchor').attr('data-pos', rightAnchor);
+				$pacNav.find('.js-pac-nav__right-container').attr('data-js-pac-nav-position', rightAnchor);
 			}
 
 			if (viewportWidth > 0 || firstRun === true) {
@@ -69,53 +71,53 @@ jQuery(document).ready(function($) {
 			// run through all of the nav items to get their positions:
 			for (var i = 0; i < desktopItemsRightPos.length; i++) {
 				if (debug === true) {
-					$(desktopNavItems[i]).attr('data-pos', desktopItemsRightPos[i]);
+					$(desktopNavItems[i]).attr('data-js-pac-nav-position', desktopItemsRightPos[i]);
 				}
 				// run the functions if it hasn't been swallowed
 				if (swallowFlag == 0) {
 					if ( (i + 1 != desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor) ) ||
-						 (i + 1 == desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor + $pacNav.find('.pac-nav--toggle-container').width()) ) ) { // if it's the last one, disregard the size of the nav toggle
-						$(desktopNavItems[i]).addClass('pac-nav--hide');
-						$(mobileNavItems[i]).addClass('pac-nav--show');
-						$pacNav.addClass('running').find('.pac-nav--mobile').attr('style','');
+						 (i + 1 == desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor + $pacNav.find('.js-pac-nav__toggle-container').width()) ) ) { // if it's the last one, disregard the size of the nav toggle
+						$(desktopNavItems[i]).addClass('js-pac-nav--is-hidden');
+						$(mobileNavItems[i]).addClass('js-pac-nav--is-visible');
+						$pacNav.addClass('js-pac-nav--is-running').find('.js-pac-nav__mobile').attr('style','');
 						swallowFlag = 1;
 						if (i <= 0) {
 							// if it's the first or second item
 							// retroactively force the first one in the list to be hide since it looks weird if it's all alone
-							$(desktopNavItems[0]).addClass('pac-nav--hide');
-							$(mobileNavItems[0]).addClass('pac-nav--show');
+							$(desktopNavItems[0]).addClass('js-pac-nav--is-hidden');
+							$(mobileNavItems[0]).addClass('js-pac-nav--is-visible');
 
-							$pacNav.removeClass('running-desktop').addClass('running-mobile');
-							$('body').removeClass('running-desktop').addClass('running-mobile');
+							$pacNav.removeClass('js-pac-nav--is-desktop').addClass('js-pac-nav--is-mobile');
+							$('body').removeClass('js-pac-nav--is-desktop').addClass('js-pac-nav--is-mobile');
 						} else {
-							$pacNav.removeClass('running-mobile').addClass('running-desktop');
-							$('body').removeClass('running-mobile').addClass('running-desktop');
+							$pacNav.removeClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-desktop');
+							$('body').removeClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-desktop');
 						}
 					} else {
-						$(desktopNavItems[i]).removeClass('pac-nav--hide');
-						$(mobileNavItems[i]).removeClass('pac-nav--show');
+						$(desktopNavItems[i]).removeClass('js-pac-nav--is-hidden');
+						$(mobileNavItems[i]).removeClass('js-pac-nav--is-visible');
 						swallowFlag = 0;
 					}
 				} else {
 					// earlier guys have already been swallowed so just swallow the next ones without doing the math:
-					$(desktopNavItems[i]).addClass('pac-nav--hide');
-					$(mobileNavItems[i]).addClass('pac-nav--show');
+					$(desktopNavItems[i]).addClass('js-pac-nav--is-hidden');
+					$(mobileNavItems[i]).addClass('js-pac-nav--is-visible');
 				}
 			}
 			if (swallowFlag == 0) {
 				// after all is done, if nothing is swallowed, clear out any pac-nav stuff
-				$pacNav.removeClass('running-desktop').removeClass('running-mobile').removeClass('running');;
+				$pacNav.removeClass('js-pac-nav--is-desktop').removeClass('js-pac-nav--is-mobile').removeClass('js-pac-nav--is-running');;
 			}
 
 			// we're done, so let's declare us loaded:
-			$pacNav.removeClass('loading').addClass('loaded');
+			$pacNav.removeClass('js-pac-nav--is-loading').addClass('js-pac-nav--is-loaded');
 
 			// addendum stuff:
-			// if ($pacNav.hasClass('running-mobile')) {
-			// 	$pacNav.find('.pac-nav--nav-toggle').off().removeClass('touch-hover'); // needs to have slide toggle;
+			// if ($pacNav.hasClass('js-pac-nav--is-mobile')) {
+			// 	$pacNav.find('.js-pac-nav--nav-toggle').off().removeClass('touch-hover'); // needs to have slide toggle;
 			// 	flickerboxJS.slideToggle();
 			// } else {
-			// 	$pacNav.find('.pac-nav--nav-toggle').off().addClass('touch-hover');
+			// 	$pacNav.find('.js-pac-nav--nav-toggle').off().addClass('touch-hover');
 			// }
 			// run it again on first run in case the toggle came in and changed the sizes.
 			if (firstRun === true) {

@@ -1,0 +1,185 @@
+/* Reset */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+	background-repeat: no-repeat;
+}
+*:focus {
+	outline: none;
+}
+.article {
+	display: block;
+}
+img {
+	max-width: 100%;
+	height: auto;
+	border: none;
+}
+table {
+    border-collapse: collapse;
+}
+h1,h2,h3,h4,h5,h6,p,ul,ol,li {
+	font-weight: normal;
+	margin: 0 0 1em;
+}
+ul,
+li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* pac nav */
+/* positioning */
+.js-pac-nav {
+	height: 100px;
+	background: whitesmoke;
+}
+.js-pac-nav {
+	position: relative;
+}
+.js-pac-nav.js-pac-nav--is-running .js-pac-nav__nav-toggle {
+	display: block;
+}
+.js-pac-nav__nav-toggle {
+	width: 50px;
+	height: 100px;
+	display: none;
+	position: relative;
+	cursor: pointer;  /* <= THIS IS VERY IMPORTANT. JS IOS NEEDS IT TO BE ABLE TO 'SEE' IT */
+}
+.js-pac-nav__nav-toggle--inner {
+	text-align: center;
+	position: absolute;
+	/*width: 40px;*/
+	top: 50%;
+	right: 0;
+	left: 0;
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	cursor: default;
+}
+.js-pac-nav__nav-toggle--inner span {
+	display: inline-block;
+	background: black;
+	height: 6px;
+	width: 6px;
+	margin: 2px;
+	border-radius: 50%;
+}
+.js-pac-nav__desktop-item {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.js-pac-nav__left-anchor,
+.js-pac-nav__right-container {
+	position: absolute;
+	margin: 0;
+}
+.js-pac-nav__left-anchor {
+	top: 50%;
+	left: 1.5%;
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	display: table;
+}
+.js-pac-nav__left-anchor > * {
+	display: table-cell;
+	vertical-align: middle;
+}
+.js-pac-nav__right-container {
+	height: 100px;
+	-ms-transform: none;
+	-webkit-transform: none;
+	transform: none;
+	right: 1.5%;
+	top: 0;
+}
+
+.js-pac-nav__desktop-nav {
+	opacity: 0;
+}
+.js-pac-nav__desktop-nav > ul {
+	display: table;
+}
+.js-pac-nav__desktop-nav > ul > li {
+	display: inline-block;
+	white-space: nowrap;
+	position: relative;
+	top: 0;
+	opacity: 1;
+}
+.js-pac-nav__desktop-nav > ul > li.js-pac-nav--hide {
+	top: -1000px;
+	opacity: 0;
+}
+.js-pac-nav.js-pac-nav--is-loaded .js-pac-nav__desktop-nav {
+	opacity: 1;
+}
+.js-pac-nav__mobile-anchor {
+	display: table;
+}
+.js-pac-nav__mobile-anchor > * {
+	display: table-cell;
+	vertical-align: middle;
+	height: 100px;
+}
+.js-pac-nav__mobile-nav > ul > li {
+	display: none;
+}
+.js-pac-nav__mobile-nav > ul > li.js-pac-nav--is-visible {
+	display: block;
+}
+
+body.running-mobile {
+
+}
+body.running-mobile .js-pac-nav__nav-toggle--inner {
+	position: absolute;
+	width: 40px;
+	top: 50%;
+	right: 0;
+	left: 0;
+	-ms-transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	cursor: default;
+	font-size: 0;
+}
+body.running-mobile .js-pac-nav__nav-toggle--inner span {
+	display: block;
+	background: black;
+	height: 3px;
+	width: 65%;
+	margin: auto 0 auto auto;
+	margin-bottom: 4px;
+	border-radius: 0;
+}
+
+/* Debug */
+
+.js-pac-nav--debug .js-pac-nav__desktop-nav > ul > li:after,
+.js-pac-nav--debug .js-pac-nav__debug-left:after,
+.js-pac-nav--debug .js-pac-nav__debug-right:after {
+	content: attr(data-js-pac-nav-position) "px";
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: rgba(black, 0.75);
+	padding: 0.1em 0.2em;
+	color: white;
+	font-size: 0.85em;
+}
+.js-pac-nav--debug .js-pac-nav__debug-left:after {
+	right: auto;
+	left: 0;
+}
