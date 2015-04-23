@@ -37,38 +37,39 @@ li {
 /*---------------------------------------------------------
 // Primary Nav
 //--------------------------------------------------------*/
-.js-pac-nav__desktop-nav .primary-nav__list--1st {
+.js-pac-nav__desktop__nav .primary-nav__list--1st {
 	/*position: absolute;*/
 	bottom: 16px;
 	right: 0;
 }
 
-.js-pac-nav__desktop-nav .primary-nav__link,
-.js-pac-nav__desktop-nav .primary-nav__item {
+.js-pac-nav__desktop__nav .primary-nav__link,
+.js-pac-nav__desktop__nav .primary-nav__item {
 	display: block;
 }
-.js-pac-nav__desktop-nav .primary-nav__link--1st {
+.js-pac-nav__desktop__nav .primary-nav__link {
 	padding: 1em 2em;
 }
-.js-pac-nav__desktop-nav .primary-nav__item--1st {
+.js-pac-nav__desktop__nav .primary-nav__item--1st {
 	position: relative;
 	display: table-cell;
 }
-.js-pac-nav__desktop-nav .primary-nav__item--1st:last-child .primary-nav__link {
-	padding-right: 0;
-}
-.js-pac-nav__desktop-nav .primary-nav__list--2nd {
+.js-pac-nav__desktop__nav .primary-nav__list--2nd {
 	position: absolute;
 	left: 0;
 	top: -1000em;
-	background: white;
 }
-.js-pac-nav__desktop-nav .primary-nav__item--1st:hover .primary-nav__list--2nd {
+.js-pac-nav__desktop__nav .primary-nav__item--1st:hover .primary-nav__list--2nd {
 	top: 100%;
 }
 
-.js-pac-nav__desktop-nav .primary-nav__link {
+.js-pac-nav__desktop__nav .primary-nav__link {
 	margin-bottom: 0;
+}
+.js-pac-nav__logo__wrpr {
+	width: 60px;
+	min-width: 60px;
+	height: 60px;
 }
 
 /* pac nav */
@@ -90,7 +91,7 @@ li {
 	position: relative;
 	cursor: pointer;  /* <= THIS IS VERY IMPORTANT. JS IOS NEEDS IT TO BE ABLE TO 'SEE' IT */
 }
-.js-pac-nav__nav-toggle--inner {
+.js-pac-nav__nav-toggle__innr {
 	text-align: center;
 	position: absolute;
 	/*width: 40px;*/
@@ -100,9 +101,9 @@ li {
 	-ms-transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
-	cursor: default;
+	font-size: 0;
 }
-.js-pac-nav__nav-toggle--inner span {
+.js-pac-nav__nav-toggle__blip {
 	display: inline-block;
 	background: black;
 	height: 6px;
@@ -115,12 +116,12 @@ li {
 	white-space: nowrap;
 }
 
-.js-pac-nav__left-anchor,
-.js-pac-nav__right-container {
+.js-pac-nav__left,
+.js-pac-nav__right {
 	position: absolute;
 	margin: 0;
 }
-.js-pac-nav__left-anchor {
+.js-pac-nav__left {
 	top: 50%;
 	left: 1.5%;
 	-ms-transform: translateY(-50%);
@@ -128,11 +129,11 @@ li {
 	transform: translateY(-50%);
 	display: table;
 }
-.js-pac-nav__left-anchor > * {
+.js-pac-nav__left > * {
 	display: table-cell;
 	vertical-align: middle;
 }
-.js-pac-nav__right-container {
+.js-pac-nav__right {
 	height: 100px;
 	-ms-transform: none;
 	-webkit-transform: none;
@@ -141,20 +142,20 @@ li {
 	top: 0;
 }
 
-.js-pac-nav__desktop-nav {
+.js-pac-nav__desktop__nav {
 	opacity: 0;
 }
-.js-pac-nav__desktop-nav > ul {
+.js-pac-nav__desktop__nav > ul {
 	display: table;
 }
-.js-pac-nav__desktop-nav > ul > li {
+.js-pac-nav__desktop__nav > ul > li {
 	display: inline-block;
 	white-space: nowrap;
 	position: relative;
 	top: 0;
 	opacity: 1;
 }
-.js-pac-nav.js-pac-nav--is-loaded .js-pac-nav__desktop-nav {
+.js-pac-nav--is-loaded .js-pac-nav__desktop__nav {
 	opacity: 1;
 }
 .js-pac-nav__mobile-anchor {
@@ -203,7 +204,7 @@ body.running-mobile .js-pac-nav__nav-toggle--inner span {
 
 /* Debug */
 
-.js-pac-nav--debug .js-pac-nav__desktop-nav > ul > li:after,
+.js-pac-nav--debug .js-pac-nav__desktop__nav > ul > li:after,
 .js-pac-nav--debug .js-pac-nav__debug-left:after,
 .js-pac-nav--debug .js-pac-nav__debug-right:after {
 	content: attr(data-js-pac-nav-position) "px";

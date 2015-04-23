@@ -12,8 +12,8 @@ jQuery(document).ready(function($) {
 		var $window   = $(window);
 		var $doc      = $(document);
 		var $pacNav   = $('.js-pac-nav');
-		var desktopNavItems = $pacNav.find('.js-pac-nav__desktop-nav > ul > li');
-		var mobileNavItems = $pacNav.find('.js-pac-nav__mobile-nav > ul > li');
+		var desktopNavItems = $pacNav.find('.js-pac-nav__desktop__nav > ul > li');
+		var mobileNavItems = $pacNav.find('.js-pac-nav__mobile__nav > ul > li');
 
 		desktopNavItems.each(function(index, el) {
 			$(el).addClass('js-pac-nav__desktop__item');
@@ -61,9 +61,9 @@ jQuery(document).ready(function($) {
 			}
 
 			// get the right Anchor position in order to compare vs the menu items
-			var rightAnchor = Math.ceil($pacNav.find('.js-pac-nav__right-container').offset().left);
+			var rightAnchor = Math.ceil($pacNav.find('.js-pac-nav__right').offset().left);
 			if (debug === true) {
-				$pacNav.find('.js-pac-nav__right-container').attr('data-js-pac-nav-position', rightAnchor);
+				$pacNav.find('.js-pac-nav__right').attr('data-js-pac-nav-position', rightAnchor);
 			}
 
 			if (viewportWidth > 0 || firstRun === true) {
