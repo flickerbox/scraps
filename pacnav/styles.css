@@ -82,12 +82,12 @@ li {
 	position: relative;
 }
 .js-pac-nav.js-pac-nav--is-running .js-pac-nav__nav-toggle {
-	display: block;
+	z-index: 0;
 }
 .js-pac-nav__nav-toggle {
 	width: 50px;
 	height: 100px;
-	display: none;
+	z-index: -1;
 	position: relative;
 	cursor: pointer;  /* <= THIS IS VERY IMPORTANT. JS IOS NEEDS IT TO BE ABLE TO 'SEE' IT */
 }
@@ -145,10 +145,7 @@ li {
 .js-pac-nav__desktop__nav {
 	opacity: 0;
 }
-.js-pac-nav__desktop__nav > ul {
-	display: table;
-}
-.js-pac-nav__desktop__nav > ul > li {
+.js-pac-nav__desktop__item {
 	display: inline-block;
 	white-space: nowrap;
 	position: relative;
@@ -158,29 +155,19 @@ li {
 .js-pac-nav--is-loaded .js-pac-nav__desktop__nav {
 	opacity: 1;
 }
-.js-pac-nav__mobile-anchor {
-	display: table;
-}
-.js-pac-nav__mobile-anchor > * {
-	display: table-cell;
-	vertical-align: middle;
-	height: 100px;
-}
-.js-pac-nav__item--is-hidden {
+.js-pac-nav__desktop__item--is-hidden {
 	top: -1000px !important;
 	opacity: 0 !important;
 }
 .js-pac-nav__mobile__item {
 	display: none;
 }
-.js-pac-nav__item--is-visible {
+.js-pac-nav__mobile__item--is-visible {
 	display: block;
 }
 
-body.running-mobile {
-
-}
-body.running-mobile .js-pac-nav__nav-toggle--inner {
+/* Running Mobile */
+.js-pac-nav--is-mobile .js-pac-nav__nav-toggle--inner {
 	position: absolute;
 	width: 40px;
 	top: 50%;
@@ -192,7 +179,7 @@ body.running-mobile .js-pac-nav__nav-toggle--inner {
 	cursor: default;
 	font-size: 0;
 }
-body.running-mobile .js-pac-nav__nav-toggle--inner span {
+.js-pac-nav--is-mobile .js-pac-nav__nav-toggle--inner span {
 	display: block;
 	background: black;
 	height: 3px;
@@ -203,20 +190,20 @@ body.running-mobile .js-pac-nav__nav-toggle--inner span {
 }
 
 /* Debug */
-
-.js-pac-nav--debug .js-pac-nav__desktop__nav > ul > li:after,
-.js-pac-nav--debug .js-pac-nav__debug-left:after,
-.js-pac-nav--debug .js-pac-nav__debug-right:after {
+.js-pac-nav--debug .js-pac-nav__desktop__item:after,
+.js-pac-nav--debug .js-pac-nav__right:after {
 	content: attr(data-js-pac-nav-position) "px";
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: rgba(black, 0.75);
+	background: rgba(0,0,0,0.75);
 	padding: 0.1em 0.2em;
 	color: white;
 	font-size: 0.85em;
+	font-family: Arial, sans-serif;
 }
-.js-pac-nav--debug .js-pac-nav__debug-left:after {
-	right: auto;
-	left: 0;
+
+.js-pac-nav--debug .js-pac-nav__right:after {
+	top: auto;
+	bottom: 0;
 }
