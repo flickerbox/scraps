@@ -15,17 +15,17 @@ jQuery(document).ready(function($) {
 		var desktopItemsRightPos = [];
 		var init                 = _init();
 
-		var $desktopNav          = $pacNav.find('.js-pac-nav__desktop__nav');
-		var $mobileNav           = $pacNav.find('.js-pac-nav__mobile__nav');
+		var $desktopNav          = $pacNav.find('.js-pac-nav__desktop-nav');
+		var $mobileNav           = $pacNav.find('.js-pac-nav__mobile-nav');
 
 		// copy the primary nav items to the mobile-nav placeholder
 		$desktopNav.children().clone().appendTo($mobileNav);
 
-		var desktopNavItems      = $pacNav.find('.js-pac-nav__desktop__nav > ul > li');
-		var mobileNavItems       = $pacNav.find('.js-pac-nav__mobile__nav > ul > li');
+		var desktopNavItems      = $pacNav.find('.js-pac-nav__desktop-nav > ul > li');
+		var mobileNavItems       = $pacNav.find('.js-pac-nav__mobile-nav > ul > li');
 
-		desktopNavItems.each(function() { $(this).addClass('js-pac-nav__desktop__item') });
-		mobileNavItems.each(function() { $(this).addClass('js-pac-nav__mobile__item') });
+		desktopNavItems.each(function() { $(this).addClass('js-pac-nav__desktop-nav__item') });
+		mobileNavItems.each(function() { $(this).addClass('js-pac-nav__mobile-nav__item') });
 
 		function _init(){
 			main();
@@ -61,19 +61,19 @@ jQuery(document).ready(function($) {
 				if (debug === true) {
 					$(desktopNavItems[i]).attr('data-js-pac-nav-position', desktopItemsRightPos[i]);
 				}
-				// run the functions if it hasn't been "swallowed"
+				// run the functions if it hasn't been swallowed
 				if (swallowFlag === false) {
 					if ( (i + 1 != desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor) ) ||
-						 (i + 1 == desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor + $pacNav.find('.js-pac-nav__right__hotspot').width()) ) ) { // if it's the last one, disregard the size of the nav toggle
-						$(desktopNavItems[i]).addClass('js-pac-nav__desktop__item--is-hidden');
-						$(mobileNavItems[i]).addClass('js-pac-nav__mobile__item--is-visible');
-						$pacNav.addClass('js-pac-nav--is-running').find('.js-pac-nav__mobile').attr('style','');
+						 (i + 1 == desktopItemsRightPos.length && (desktopItemsRightPos[i] >= rightAnchor + $pacNav.find('.js-pac-nav__right').width()) ) ) { // if it's the last one, disregard the size of the nav toggle
+						$(desktopNavItems[i]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
+						$(mobileNavItems[i]).addClass('js-pac-nav__mobile-nav__item--is-visible');
+						$pacNav.addClass('js-pac-nav--is-running').find('.js-pac-nav__mobile-nav').attr('style','');
 						swallowFlag = true;
 						if (i <= 0) {
 							// if it's the first or second item
 							// retroactively force the first one in the list to be hide since it looks weird if it's all alone
-							$(desktopNavItems[0]).addClass('js-pac-nav__desktop__item--is-hidden');
-							$(mobileNavItems[0]).addClass('js-pac-nav__mobile__item--is-visible');
+							$(desktopNavItems[0]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
+							$(mobileNavItems[0]).addClass('js-pac-nav__mobile-nav__item--is-visible');
 
 							$pacNav.removeClass('js-pac-nav--is-desktop').addClass('js-pac-nav--is-mobile');
 							$('body').removeClass('js-pac-nav__body--is-desktop').addClass('js-pac-nav__body--is-mobile');
@@ -82,14 +82,14 @@ jQuery(document).ready(function($) {
 							$('body').removeClass('js-pac-nav__body--is-mobile').addClass('js-pac-nav__body--is-desktop');
 						}
 					} else {
-						$(desktopNavItems[i]).removeClass('js-pac-nav__desktop__item--is-hidden');
-						$(mobileNavItems[i]).removeClass('js-pac-nav__mobile__item--is-visible');
+						$(desktopNavItems[i]).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
+						$(mobileNavItems[i]).removeClass('js-pac-nav__mobile-nav__item--is-visible');
 						swallowFlag = false;
 					}
 				} else {
 					// earlier guys have already been swallowed so just swallow the next ones without doing the math:
-					$(desktopNavItems[i]).addClass('js-pac-nav__desktop__item--is-hidden');
-					$(mobileNavItems[i]).addClass('js-pac-nav__mobile__item--is-visible');
+					$(desktopNavItems[i]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
+					$(mobileNavItems[i]).addClass('js-pac-nav__mobile-nav__item--is-visible');
 				}
 			}
 			if (swallowFlag === false) {
