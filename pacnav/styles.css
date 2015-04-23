@@ -81,8 +81,12 @@ li {
 /*---------------------------------------------------------
 // Pac Nav
 //--------------------------------------------------------*/
-.js-pac-nav {
+.js-pac-nav,
+.js-pac-nav__left,
+.js-pac-nav__right {
 	height: 100px;
+}
+.js-pac-nav {
 	position: relative;
 	background: whitesmoke;
 }
@@ -90,21 +94,16 @@ li {
 .js-pac-nav__left,
 .js-pac-nav__right {
 	position: absolute;
-	margin: 0;
 }
 .js-pac-nav__left {
+	display: table;
 	top: 50%;
 	left: 1.5%;
 	-ms-transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
-	display: table;
 }
 .js-pac-nav__right {
-	height: 100px;
-	-ms-transform: none;
-	-webkit-transform: none;
-	transform: none;
 	right: 1.5%;
 	top: 0;
 }
@@ -118,9 +117,7 @@ li {
 	opacity: 0;
 }
 .js-pac-nav__desktop-nav__item {
-	display: inline-block;
 	white-space: nowrap;
-	position: relative;
 	top: 0;
 	opacity: 1;
 	outline: 1px dashed green;
