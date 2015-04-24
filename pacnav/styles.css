@@ -17,6 +17,12 @@ li {
 /*---------------------------------------------------------
 // Desktop Nav
 //--------------------------------------------------------*/
+.site-container {
+	width: 95%;
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
 .desktop-nav .primary-nav__list--1st {
 	/*position: absolute;*/
 	bottom: 16px;
@@ -50,6 +56,7 @@ li {
 	width: 60px;
 	min-width: 60px;
 	height: 60px;
+	padding-right: 1em;
 }
 
 /* Nav Toggle */
@@ -81,22 +88,23 @@ li {
 /*---------------------------------------------------------
 // Pac Nav
 //--------------------------------------------------------*/
-.js-pac-nav,
+.js-pac-nav__inner,
 .js-pac-nav__left,
 .js-pac-nav__right {
 	height: 100px;
 }
 .js-pac-nav {
-	position: relative;
 	background: whitesmoke;
 }
-
+.js-pac-nav__inner {
+	position: relative;
+}
 .js-pac-nav__left,
 .js-pac-nav__right {
 	position: absolute;
+	display: table;
 }
 .js-pac-nav__left {
-	display: table;
 	top: 50%;
 	left: 1.5%;
 	-ms-transform: translateY(-50%);
@@ -115,6 +123,7 @@ li {
 /* Desktop Nav */
 .js-pac-nav__desktop-nav {
 	opacity: 0;
+	position: relative;
 }
 .js-pac-nav__desktop-nav__item {
 	white-space: nowrap;
@@ -131,12 +140,20 @@ li {
 }
 
 /* Mobile Nav */
+.js-pac-nav__mobile-nav__wrpr {
+	position: relative;
+}
+.js-pac-nav__mobile-nav {
+	position: absolute;
+	top: 100%;
+}
 .js-pac-nav__mobile-nav__item {
 	display: none;
 }
 .js-pac-nav__desktop-nav__item--is-hidden {
-	top: -1000px !important;
-	opacity: 0 !important;
+	position: absolute;
+	z-index: -1;
+	/*opacity: 0 !important;*/
 }
 .js-pac-nav__mobile-nav__item--is-visible {
 	display: block;
@@ -175,6 +192,7 @@ li {
 
 /* Debug */
 .js-pac-nav--debug .js-pac-nav__desktop-nav__item:after,
+.js-pac-nav--debug .js-pac-nav__left:after,
 .js-pac-nav--debug .js-pac-nav__right:after {
 	content: attr(data-js-pac-nav-position) "px";
 	position: absolute;
@@ -190,3 +208,7 @@ li {
 	top: auto;
 	bottom: 0;
 }
+/*.js-pac-nav--debug .js-pac-nav__desktop-nav__item--is-hidden {
+	top: auto !important;
+	opacity: 1 !important;
+}*/

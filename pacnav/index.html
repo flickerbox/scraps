@@ -12,51 +12,55 @@
 </head>
 <body>
 
-<header class="js-pac-nav">
-	<div class="js-pac-nav__left">
-		<a class="js-pac-nav__pac-item site-logo__wrpr" href="/">
-			<img class="site-logo" src="logo.svg">
-		</a>
-		<nav class="js-pac-nav__desktop-nav desktop-nav js-pac-nav__pac-item">
-			<ul class="primary-nav__list primary-nav__list--1st">
-				<li class="primary-nav__item primary-nav__item--1st">
-					<a class="primary-nav__link primary-nav__link--1st" href="#">Nav 1</a>
-				</li>
-				<li class="primary-nav__item primary-nav__item--1st primary-nav__item--parent">
-					<a class="primary-nav__link primary-nav__link--1st" href="#">Nav 2</a>
-					<ul class="primary-nav__list primary-nav__list--2nd">
-						<li class="primary-nav__item primary-nav__item--2nd">
-							<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.1</a>
-						</li>
-						<li class="primary-nav__item primary-nav__item--2nd">
-							<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.2</a>
-						</li>
-						<li class="primary-nav__item primary-nav__item--2nd">
-							<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.3</a>
-						</li>
-					</ul>
-				</li>
-				<li class="primary-nav__item primary-nav__item--1st">
-					<a class="primary-nav__link primary-nav__link--1st" href="#">Nav 3</a>
-				</li>
-				<li class="primary-nav__item primary-nav__item--1st">
-					<a class="primary-nav__link primary-nav__link--1st" href="#">Nav 4</a>
-				</li>
-				<li class="primary-nav__item primary-nav__item--1st">
-					<a class="primary-nav__link primary-nav__link--1st" href="#">Nav 5</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-	<div class="js-pac-nav__right">
-		<div class="js-pac-nav__nav-toggle nav-toggle">
-			<div class="nav-toggle__innr">
-				<span class="nav-toggle__blip"></span>
-				<span class="nav-toggle__blip"></span>
-				<span class="nav-toggle__blip"></span>
+<header class="js-pac-nav" data-js-pac-nav--nav-side="right">
+	<div class="site-container js-pac-nav__inner">
+		<div class="js-pac-nav__left">
+			<a class="js-pac-nav__pac-item site-logo__wrpr" href="/">
+				<img class="site-logo" src="logo.svg">
+			</a>
+		</div>
+		<div class="js-pac-nav__right">
+			<nav class="js-pac-nav__desktop-nav desktop-nav js-pac-nav__pac-item">
+				<ul class="primary-nav__list primary-nav__list--1st">
+					<li class="primary-nav__item primary-nav__item--1st">
+						<a class="primary-nav__link primary-nav__link--1st" href="#">First</a>
+					</li>
+					<li class="primary-nav__item primary-nav__item--1st primary-nav__item--parent">
+						<a class="primary-nav__link primary-nav__link--1st" href="#">Second</a>
+						<ul class="primary-nav__list primary-nav__list--2nd">
+							<li class="primary-nav__item primary-nav__item--2nd">
+								<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.1</a>
+							</li>
+							<li class="primary-nav__item primary-nav__item--2nd">
+								<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.2</a>
+							</li>
+							<li class="primary-nav__item primary-nav__item--2nd">
+								<a class="primary-nav__link primary-nav__link--2nd" href="#">Nav 2.3</a>
+							</li>
+						</ul>
+					</li>
+					<li class="primary-nav__item primary-nav__item--1st">
+						<a class="primary-nav__link primary-nav__link--1st" href="#">Third</a>
+					</li>
+					<li class="primary-nav__item primary-nav__item--1st">
+						<a class="primary-nav__link primary-nav__link--1st" href="#">Fourth</a>
+					</li>
+					<li class="primary-nav__item primary-nav__item--1st">
+						<a class="primary-nav__link primary-nav__link--1st" href="#">Fifth</a>
+					</li>
+				</ul>
+			</nav>
+			<div class="js-pac-nav__nav-toggle nav-toggle">
+				<div class="nav-toggle__innr">
+					<span class="nav-toggle__blip"></span>
+					<span class="nav-toggle__blip"></span>
+					<span class="nav-toggle__blip"></span>
+				</div>
+			</div>
+			<div class="js-pac-nav__mobile-nav__wrpr mobile-nav__wrpr">
+				<nav class="js-pac-nav__mobile-nav mobile-nav"></nav>
 			</div>
 		</div>
-		<nav class="js-pac-nav__mobile-nav mobile-nav"></nav>
 	</div>
 </header>
 </body>
