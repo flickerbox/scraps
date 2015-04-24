@@ -9,8 +9,9 @@ jQuery(document).ready(function($) {
 	 */
 	function PacNav(){
 		// Variables
-		var debug                = true;
-		var leastHybridItems     = 1;
+		var debug                = false;
+		var leastHybridItems     = 2;
+		var repeatMain;
 		var $window              = $(window);
 		var $pacNav              = $('.js-pac-nav');
 		var desktopNavSide;
@@ -20,6 +21,7 @@ jQuery(document).ready(function($) {
 		var hiddenOffset         = 0;
 		var fixedSideCutoff;
 		var init                 = _init();
+
 
 		var $desktopNav          = $pacNav.find('.js-pac-nav__desktop-nav');
 		var $mobileNav           = $pacNav.find('.js-pac-nav__mobile-nav');
@@ -44,10 +46,12 @@ jQuery(document).ready(function($) {
 		function _init(){
 			main();
 			$window.load( main );
-			$window.resize( main );
+			$window.resize( function() {
+				main(false);
+			});
 		}
 
-		function main() {
+		function main(repeatMain) {
 
 			$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 
@@ -148,6 +152,12 @@ jQuery(document).ready(function($) {
 
 			// we're done, so let's declare us loaded:
 			$pacNav.removeClass('js-pac-nav--is-loading').addClass('js-pac-nav--is-loaded');
+
+			// run it again on first run for the right hand desktop nav as things shift after first loading
+			if (repeatMain !== false && desktopNavSide === 'right') {
+				main(false);
+			}
+
 		}
 	}
 });
