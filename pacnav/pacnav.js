@@ -9,10 +9,11 @@ jQuery(document).ready(function($) {
 	 */
 	function PacNav(){
 		// Variables
-		var desktopNavSide       = 'right';
-		var debug                = false;
+		var debug                = true;
+		var leastHybridItems     = 1;
 		var $window              = $(window);
 		var $pacNav              = $('.js-pac-nav');
+		var desktopNavSide;
 		var desktopItemsCutoff   = [];
 		var desktopItemsWidth    = [];
 		var numOfHiddenItems     = 0;
@@ -33,6 +34,12 @@ jQuery(document).ready(function($) {
 
 		desktopItems.each(function() { $(this).addClass('js-pac-nav__desktop-nav__item') });
 		mobileItems.each(function() { $(this).addClass('js-pac-nav__mobile-nav__item') });
+
+		if ($desktopNav.closest('.js-pac-nav__right').length) {
+			desktopNavSide = 'right';
+		} else if ($desktopNav.closest('.js-pac-nav__left').length) {
+			desktopNavSide = 'left';
+		}
 
 		function _init(){
 			main();
@@ -87,11 +94,11 @@ jQuery(document).ready(function($) {
 					$(desktopItems[i]).attr('data-js-pac-nav-position', desktopItemsCutoff[i]);
 				}
 				if ( desktopNavSide === 'left' && (
-						(i + 1 != desktopItemsCutoff.length && (desktopItemsCutoff[i] >= fixedSideCutoff) ) ||
-					 	(i + 1 == desktopItemsCutoff.length && (desktopItemsCutoff[i] >= fixedSideCutoff + $pacNav.find('.js-pac-nav__nav-toggle').width()) )
+						( desktopItemsCutoff[i] >= fixedSideCutoff - navToggleWidth) ||
+					 	(i === 0 && (desktopItemsCutoff[i] >= fixedSideCutoff) )
 					) || desktopNavSide === 'right' && (
 						(i + 1 != desktopItemsCutoff.length && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset) ) ||
-					 	(i == 0 && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset + navToggleWidth ) )
+					 	(i === 0 && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset + navToggleWidth ) )
 					) ) { // if it's the last nav item, disregard the size of the nav toggle
 					numOfHiddenItems++;
 				}
@@ -101,8 +108,8 @@ jQuery(document).ready(function($) {
 				hiddenOffset += desktopItemsWidth[index];
 			}
 
-			if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - 1) {
-				// Hybrid: there is at least one hidden item, but at least 2 remaining
+			if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - ( leastHybridItems - 1 )) {
+				// Hybrid: there is at least one hidden item, but at least 'leastHybridItems' remaining
 				// reset:
 				$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
 				$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');

@@ -155,6 +155,7 @@ li {
 .js-pac-nav__desktop-nav__item--is-hidden {
 	position: absolute;
 	z-index: -1;
+	top: -1000px;
 }
 .js-pac-nav__mobile-nav__item--is-visible {
 	display: block;
