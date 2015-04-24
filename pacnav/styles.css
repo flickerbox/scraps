@@ -135,7 +135,8 @@ li {
 /* Nav Toggle */
 .js-pac-nav__nav-toggle {
 	z-index: -1;
-	position: relative;
+	position: absolute;
+	right: 0;
 	cursor: pointer;  /* <= THIS IS VERY IMPORTANT. JS IOS NEEDS IT TO BE ABLE TO 'SEE' IT */
 }
 
@@ -146,6 +147,7 @@ li {
 .js-pac-nav__mobile-nav {
 	position: absolute;
 	top: 100%;
+	right: 0;
 }
 .js-pac-nav__mobile-nav__item {
 	display: none;
@@ -153,14 +155,14 @@ li {
 .js-pac-nav__desktop-nav__item--is-hidden {
 	position: absolute;
 	z-index: -1;
-	/*opacity: 0 !important;*/
 }
 .js-pac-nav__mobile-nav__item--is-visible {
 	display: block;
 }
 
 /* Actions! */
-.js-pac-nav--is-running .js-pac-nav__nav-toggle {
+.js-pac-nav--is-hybrid .js-pac-nav__nav-toggle,
+.js-pac-nav--is-mobile .js-pac-nav__nav-toggle {
 	z-index: 0;
 }
 .js-pac-nav--is-loaded .js-pac-nav__desktop-nav {
