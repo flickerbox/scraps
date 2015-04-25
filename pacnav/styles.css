@@ -34,7 +34,7 @@ li {
 	display: block;
 }
 .desktop-nav .primary-nav__link {
-	padding: 1em 2em;
+	padding: 1em 3em;
 }
 .desktop-nav .primary-nav__item--1st {
 	position: relative;
@@ -124,6 +124,9 @@ li {
 .js-pac-nav__desktop-nav {
 	opacity: 0;
 	position: relative;
+}
+.no-js .js-pac-nav__desktop-nav {
+	opacity: 1;
 }
 .js-pac-nav__desktop-nav__item {
 	white-space: nowrap;

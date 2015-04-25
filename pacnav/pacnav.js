@@ -10,7 +10,7 @@ jQuery(document).ready(function($) {
 	function PacNav(){
 		// Variables
 		var debug                = false;
-		var leastHybridItems     = 2;
+		var fewestHybridItems    = 2;
 		var repeatMain;
 		var $window              = $(window);
 		var $pacNav              = $('.js-pac-nav');
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) {
 			desktopNavSide = 'left';
 		}
 
-		function _init(){
+		function _init() {
 			main();
 			$window.load( main );
 			$window.resize( function() {
@@ -90,30 +90,42 @@ jQuery(document).ready(function($) {
 			// reset:
 			$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
 			$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
-			numOfHiddenItems   = 0;
+			numOfHiddenItems     = 0;
 
 			// run through all of the nav items to get their positions and add to them being hidden (if necessary):
-			for (var i = 0; i < desktopItemsCutoff.length; i++) {
+			for (var i = 0; i < numOfItems; i++) {
 				if (debug === true) {
 					$(desktopItems[i]).attr('data-js-pac-nav-position', desktopItemsCutoff[i]);
 				}
-				if ( desktopNavSide === 'left' && (
-						( desktopItemsCutoff[i] >= fixedSideCutoff - navToggleWidth) ||
-					 	(i === 0 && (desktopItemsCutoff[i] >= fixedSideCutoff) )
-					) || desktopNavSide === 'right' && (
-						(i + 1 != desktopItemsCutoff.length && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset) ) ||
-					 	(i === 0 && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset + navToggleWidth ) )
-					) ) { // if it's the last nav item, disregard the size of the nav toggle
+				// this is the main logic:
+				if  ( desktopNavSide === 'left' // the left side cares about the last item in relation to the navToggle
+						&& (
+							( i < numOfItems - 1    && (desktopItemsCutoff[i] >= fixedSideCutoff - navToggleWidth) )
+							||
+						 	( i === numOfItems - 1  && (desktopItemsCutoff[i] >= fixedSideCutoff) )
+						)
+					|| desktopNavSide === 'right' // the right side cares about the first item in relation to the navToggle
+						&& (
+							( i !== 0 && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset - navToggleWidth) )
+							||
+							( i === 0 && (fixedSideCutoff >= desktopItemsCutoff[i] - hiddenOffset) )
+						)
+					) {
 					numOfHiddenItems++;
 				}
 			}
-			hiddenOffset = 0;
-			for (var index = numOfItems - 1; index > numOfItems - 1 - numOfHiddenItems; index--) {
-				hiddenOffset += desktopItemsWidth[index];
+			if (desktopNavSide === 'right') {
+				hiddenOffset = 0;
+				for (var index = numOfItems - 1; index > numOfItems - 1 - numOfHiddenItems; index--) {
+					hiddenOffset += desktopItemsWidth[index];
+				}
+				// if there's hidden items, add the nav toggle width to the hiddenOffset
+				hiddenOffset = numOfHiddenItems > 0 ? hiddenOffset - navToggleWidth : hiddenOffset;
 			}
 
-			if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - ( leastHybridItems - 1 )) {
-				// Hybrid: there is at least one hidden item, but at least 'leastHybridItems' remaining
+
+			if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - ( fewestHybridItems - 1 )) {
+				// Hybrid: there is at least one hidden item, but at least 'fewestHybridItems' remaining
 				// reset:
 				$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
 				$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
@@ -123,7 +135,7 @@ jQuery(document).ready(function($) {
 					$(mobileItems[index]).addClass('js-pac-nav__mobile-nav__item--is-visible');
 				}
 				if (desktopNavSide === 'right') {
-					$desktopNav.css('left', hiddenOffset - navToggleWidth + 'px');
+					$desktopNav.css('left', hiddenOffset + 'px');
 				}
 
 				$pacNav.removeClass('js-pac-nav--is-desktop').removeClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-hybrid').addClass('js-pac-nav--is-running');
@@ -134,7 +146,7 @@ jQuery(document).ready(function($) {
 				$(mobileItems).addClass('js-pac-nav__mobile-nav__item--is-visible');
 
 				if (desktopNavSide === 'right') {
-					$desktopNav.css('left', hiddenOffset - navToggleWidth + 'px');
+					$desktopNav.css('left', hiddenOffset + 'px');
 				}
 
 				$pacNav.removeClass('js-pac-nav--is-desktop').removeClass('js-pac-nav--is-hybrid').addClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-running');
