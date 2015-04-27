@@ -1,6 +1,10 @@
 /* Reset */
+html {
+	overflow: hidden;
+}
 body {
-	overflow-x: hidden;
+	overflow: hidden;
+	min-height: 300px;
 	margin: 0;
 	padding: 0;
 }
