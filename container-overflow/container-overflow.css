@@ -1,9 +1,5 @@
 /* Reset */
-html {
-	overflow: hidden;
-}
 body {
-	overflow: hidden;
 	min-height: 300px;
 	margin: 0;
 	padding: 0;
@@ -40,6 +36,9 @@ li {
 .span-2-3 {
 	float: left;
 	width: 66.66%;
+}
+hr {
+	margin: 2em 0;
 }
 
 .js-container-overflow {
