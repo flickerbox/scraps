@@ -31,7 +31,7 @@ li {
 	max-width: 1000px;
 	margin-left: auto;
 	margin-right: auto;
-	background-color: rgba(0,0,0,0.25);
+	background-color: rgba(255,0,0,0.25);
 }
 .span-1-3 {
 	float: left;
@@ -43,19 +43,21 @@ li {
 }
 
 .js-container-overflow {
-	position: relative;
 }
-.js-container-overflow__go-left,
-.js-container-overflow__go-right {
-	min-height: 300px;
+
+[class*=js-container-overflow__item] {
+	outline: 1px dashed green;
 }
-.js-container-overflow__go-right {
-	background-color: rgba(255,0,0,0.25);
-}
-.js-container-overflow__go-left {
+
+.js-container-overflow__item--go-right {
 	background-color: rgba(0,255,0,0.25);
 }
-.js-container-overflow__loading {
-	position: static;
+.js-container-overflow__item--go-left {
+	background-color: rgba(0,0,255,0.25);
+}
+.js-container-overflow__is-loading {
 	opacity: 0;
+}
+.js-container-overflow__is-loaded {
+	max-width: none;
 }
