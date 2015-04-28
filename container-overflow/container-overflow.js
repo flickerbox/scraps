@@ -12,17 +12,21 @@ new ContainerOverflow();
 function ContainerOverflow() {
 	// Variables
 	var $containerOverflow = $('.js-container-overflow');
-	var $containerOverflowContainer;
-	var $containerOverflowItems;
-	var $containerOverflowItem;
-	var containerOverflowWidths = [];
-	var containerOverflowItemLeftPosition;
-	var containerOverflowItemRightPosition;
-	var containerOverflowRight = false;
-	var containerOverflowLeft = false;
-	var containerOverflowContainerWidth;
-	var containerOverflowContainerLeft;
-	var containerOverflowContainerRight;
+
+	var goRight = false;
+	var goLeft = false;
+
+	var $items;
+	var $item;
+	var itemWidths = [];
+	var itemLeftPosition;
+	var itemRightPosition;
+
+	var $container;
+	var containerWidth;
+	var containerLeft;
+	var containerRight;
+	var containerHeight;
 
 	var $window            = $(window);
 	var windowWidth;
@@ -40,66 +44,82 @@ function ContainerOverflow() {
 		// reset and hide:
 
 		$containerOverflow.each(function(index,el) {
-			$containerOverflowContainer = $(this);
+			$container = $(this);
 
-			$containerOverflowItems = $containerOverflowContainer.find('[class*=js-container-overflow__item]');
+			$items = $container.find('[class*=js-container-overflow__item]');
 
 
 			//reset:
-			containerOverflowRight = containerOverflowLeft = false;
-			$containerOverflowContainer.removeClass('js-container-overflow__is-loaded').addClass('js-container-overflow__is-loading').attr('style', '');
-			for (var i = 0; i < $containerOverflowItems.length; i++) {
-				$($containerOverflowItems[i]).addClass('js-container-overflow__is-loading').attr('style', '');
+			goRight = goLeft = false;
+			$container.removeClass('js-container-overflow__is-loaded').addClass('js-container-overflow__is-loading').attr('style', '');
+			for (var i = 0; i < $items.length; i++) {
+				$($items[i]).addClass('js-container-overflow__is-loading').attr('style', '');
 			};
-			containerOverflowWidths = [];
+			itemWidths = [];
 
 			windowWidth        = Math.ceil($window.width());
-			containerOverflowContainerWidth = Math.ceil($containerOverflowContainer.width());
-			containerOverflowContainerLeft =  Math.floor($containerOverflowContainer.offset().left);
-			containerOverflowContainerRight = containerOverflowContainerLeft + containerOverflowContainerWidth;
+			containerWidth = Math.ceil($container.width());
+			containerLeft =  Math.floor($container.offset().left);
+			containerRight = containerLeft + containerWidth;
 
-			$containerOverflowItems.each(function(index, el) {
-				$containerOverflowItem = $(this);
+			thisHeight = 0;
+			containerHeight = 0;
 
-				containerOverflowItemLeftPosition = Math.floor($containerOverflowItem.offset().left);
-				containerOverflowItemRightPosition = containerOverflowItemLeftPosition + Math.floor($containerOverflowItem.width());
+			$items.each(function(index, el) {
+				$item = $(this);
+
+				itemLeftPosition = Math.floor($item.offset().left);
+				itemRightPosition = itemLeftPosition + Math.floor($item.width());
 
 
-				if ($containerOverflowItem.hasClass('js-container-overflow__item--go-left')) {
-					containerOverflowLeft = true;
-					containerOverflowWidths.push(Math.floor( containerOverflowItemRightPosition ));
-				} else if ($containerOverflowItem.hasClass('js-container-overflow__item--go-right')) {
-					containerOverflowRight = true;
-					containerOverflowWidths.push(Math.floor( windowWidth - containerOverflowItemLeftPosition ));
+				if ($item.hasClass('js-container-overflow__item--go-left')) {
+					goLeft = true;
+					itemWidths.push(Math.floor( itemRightPosition ));
+				} else if ($item.hasClass('js-container-overflow__item--go-right')) {
+					goRight = true;
+					itemWidths.push(Math.floor( windowWidth - itemLeftPosition ));
 				} else {
-					containerOverflowWidths.push(Math.floor( $containerOverflowItem.width() ));
+					itemWidths.push(Math.floor( $item.width() ));
 				}
 			});
 
 			// set the widths
-			for (var i = 0; i < $containerOverflowItems.length; i++) {
-				$($containerOverflowItems[i]).css('width', containerOverflowWidths[i] + 'px');
+			for (var i = 0; i < $items.length; i++) {
+				$($items[i]).css('width', itemWidths[i] + 'px');
 			};
 
-			if (containerOverflowLeft === true) {
-				$containerOverflowContainer.css({
+			// get the max height:
+			if ($container.attr('data-js-container-overflow--fill')) {
+				for (var i = 0; i < $items.length; i++) {
+					thisHeight = Math.ceil($($items[i]).height());
+					containerHeight = thisHeight > containerHeight ? thisHeight : containerHeight;
+				};
+			}
+			// add an extra pixel to make sure it doesn't drop to a new line
+			if (goLeft === true) {
+				$container.css({
 					marginLeft: '0',
-					width: (containerOverflowContainerRight + 1)
+					width: (containerRight + 1)
 				});
 			}
-			if (containerOverflowRight === true) {
-				$containerOverflowContainer.css({
+			if (goRight === true) {
+				$container.css({
 					marginRight: '0',
-					width: (windowWidth - containerOverflowContainerLeft + 1)
+					width: (windowWidth - containerLeft + 1)
 				});
 			}
-			if (containerOverflowLeft === true && containerOverflowRight === true) {
-				$containerOverflowContainer.css('width', windowWidth);
+			if (goLeft === true && goRight === true) {
+				$container.css('width', windowWidth);
 			}
 
+			if ($container.attr('data-js-container-overflow--fill')) {
+				for (var i = 0; i < $items.length; i++) {
+					$($items[i]).css('height', containerHeight);
+				};
+			}
 			// restore:
-			$containerOverflowItems.removeClass('js-container-overflow__is-loading');
-			$containerOverflowContainer.removeClass('js-container-overflow__is-loading').addClass('js-container-overflow__is-loaded');
+			$items.removeClass('js-container-overflow__is-loading');
+			$container.removeClass('js-container-overflow__is-loading').addClass('js-container-overflow__is-loaded');
 
 		});
 
