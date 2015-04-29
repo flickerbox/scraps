@@ -1,10 +1,5 @@
 /* Reset */
-html {
-	overflow: hidden;
-}
 body {
-	overflow: hidden;
-	min-height: 300px;
 	margin: 0;
 	padding: 0;
 }
@@ -167,11 +162,6 @@ li {
 .js-pac-nav__mobile-nav__item {
 	display: none;
 }
-.js-pac-nav__desktop-nav__item--is-hidden {
-	position: absolute;
-	z-index: -1;
-	top: -1000px;
-}
 .js-pac-nav__mobile-nav__item--is-visible {
 	display: block;
 }
@@ -186,6 +176,10 @@ li {
 }
 .js-pac-nav--is-loading .js-pac-nav__desktop-nav {
 	left: 0 !important;
+}
+
+.js-pac-nav__body--is-loaded .js-pac-nav__desktop-nav__item--is-hidden {
+	display: none;
 }
 
 /* Is Mobile */
@@ -219,3 +213,8 @@ li {
 	top: auto;
 	bottom: 0;
 }
+/*.js-pac-nav--debug,
+.js-pac-nav--debug * {
+	outline: 1px dashed blue;
+}
+*/
