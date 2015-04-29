@@ -10,7 +10,7 @@ function PacNav(){
 	// Variables
 
 	// editable variables:
-	var debug                = true;
+	var debug                = false;
 	var fewestHybridItems    = 1;
 
 	// non-editable variables:

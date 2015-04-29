@@ -175,11 +175,11 @@ li {
 	opacity: 1;
 }
 .js-pac-nav--is-loading .js-pac-nav__desktop-nav {
-	left: 0 !important;
+	right: 0 !important;
 }
 
 .js-pac-nav__body--is-loaded .js-pac-nav__desktop-nav__item--is-hidden {
-	display: none;
+	display: none !important;
 }
 
 /* Is Mobile */
@@ -213,8 +213,3 @@ li {
 	top: auto;
 	bottom: 0;
 }
-/*.js-pac-nav--debug,
-.js-pac-nav--debug * {
-	outline: 1px dashed blue;
-}
-*/
