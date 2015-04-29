@@ -28,7 +28,6 @@ li {
 	margin-right: auto;
 }
 .desktop-nav .primary-nav__list--1st {
-	/*position: absolute;*/
 	bottom: 16px;
 	right: 0;
 }
@@ -36,6 +35,9 @@ li {
 .desktop-nav .primary-nav__link,
 .desktop-nav .primary-nav__item {
 	display: block;
+}
+.desktop-nav .primary-nav__item {
+	outline: 1px dashed green;
 }
 .desktop-nav .primary-nav__link {
 	padding: 1em 3em;
@@ -61,6 +63,7 @@ li {
 	min-width: 60px;
 	height: 60px;
 	padding-right: 1em;
+	outline: 1px dashed red;
 }
 
 /* Nav Toggle */
@@ -71,7 +74,6 @@ li {
 .nav-toggle__innr {
 	text-align: center;
 	position: absolute;
-	/*width: 40px;*/
 	top: 50%;
 	right: 0;
 	left: 0;
@@ -88,6 +90,16 @@ li {
 	margin: 2px;
 	border-radius: 50%;
 }
+.js-pac-nav--is-mobile .nav-toggle__blip {
+	height: 3px;
+	width: 65%;
+	margin: auto 0 auto auto;
+	margin-bottom: 4px;
+	border-radius: 0;
+}
+.site-header {
+	background: whitesmoke;
+}
 
 /*---------------------------------------------------------
 // Pac-Nav
@@ -96,9 +108,6 @@ li {
 .js-pac-nav__left,
 .js-pac-nav__right {
 	height: 100px;
-}
-.js-pac-nav {
-	background: whitesmoke;
 }
 .js-pac-nav__inner {
 	position: relative;
@@ -110,13 +119,13 @@ li {
 }
 .js-pac-nav__left {
 	top: 50%;
-	left: 1.5%;
+	left: 0;
 	-ms-transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
 }
 .js-pac-nav__right {
-	right: 1.5%;
+	right: 0;
 	top: 0;
 }
 .js-pac-nav__pac-item {
@@ -136,7 +145,6 @@ li {
 	white-space: nowrap;
 	top: 0;
 	opacity: 1;
-	outline: 1px dashed green;
 }
 
 /* Nav Toggle */
@@ -176,11 +184,13 @@ li {
 .js-pac-nav--is-loaded .js-pac-nav__desktop-nav {
 	opacity: 1;
 }
+.js-pac-nav--is-loading .js-pac-nav__desktop-nav {
+	left: 0 !important;
+}
 
 /* Is Mobile */
 .js-pac-nav--is-mobile .nav-toggle__innr {
 	position: absolute;
-	width: 40px;
 	top: 50%;
 	right: 0;
 	left: 0;
@@ -189,15 +199,6 @@ li {
 	transform: translateY(-50%);
 	cursor: default;
 	font-size: 0;
-}
-.js-pac-nav--is-mobile .nav-toggle__blip {
-	display: block;
-	background: black;
-	height: 3px;
-	width: 65%;
-	margin: auto 0 auto auto;
-	margin-bottom: 4px;
-	border-radius: 0;
 }
 
 /* Debug */
@@ -218,7 +219,3 @@ li {
 	top: auto;
 	bottom: 0;
 }
-/*.js-pac-nav--debug .js-pac-nav__desktop-nav__item--is-hidden {
-	top: auto !important;
-	opacity: 1 !important;
-}*/
