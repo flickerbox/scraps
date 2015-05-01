@@ -1,20 +1,19 @@
 // pac nav
 
-// Create the instance of the class
-new PacNav();
+// To run pac-nav, set this inside of of your main javascript:
+// new PacNav();
 
 /**
  * The PacNav class
  */
-function PacNav(){
+function PacNav(callback){
 	// Variables
 
 	// editable variables:
-	var debug                = false;
 	var fewestHybridItems    = 1;
+	var debug                = false;
 
 	// non-editable variables:
-	var repeatMain;
 	var $window              = $(window);
 	var $body                = $('body');
 	var $pacNav              = $body.find('.js-pac-nav');
@@ -22,12 +21,10 @@ function PacNav(){
 	var desktopItemsCutoff   = [];
 	var desktopItemsWidth    = [];
 	var numOfHiddenItems     = 0;
-
-	var leftBreakPoint		 = 0;
-
+	var leftBreakPoint       = 0;
 	var fixedSideCutoff;
-	var init                 = _init();
 
+	var init                 = _init();
 
 	var $desktopNav          = $pacNav.find('.js-pac-nav__desktop-nav');
 	var $mobileNav           = $pacNav.find('.js-pac-nav__mobile-nav');
@@ -50,7 +47,7 @@ function PacNav(){
 	}
 
 	function _init() {
-		$window.load( function() {
+		$(document).ready(function() {
 			main(false);
 		});
 		$window.resize( function() {
@@ -58,7 +55,7 @@ function PacNav(){
 		});
 	}
 
-	function main(repeatMain) {
+	function main() {
 
 		$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 		$body.removeClass('js-pac-nav__body--is-loaded').addClass('js-pac-nav__body--is-loading');
@@ -81,7 +78,7 @@ function PacNav(){
 		}
 
 		// figure out the items widths
-		if ($window.width() > 0) {
+		// if ($window.width() > 0) {
 			// get the positions of everything:
 			desktopItemsCutoff = [];
 			desktopItemsWidth  = [];
@@ -93,7 +90,7 @@ function PacNav(){
 					desktopItemsCutoff.push(Math.floor($(this).offset().left));
 				}
 			});
-		}
+		// }
 
 		// reset:
 		$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
@@ -188,10 +185,7 @@ function PacNav(){
 		$pacNav.removeClass('js-pac-nav--is-loading').addClass('js-pac-nav--is-loaded');
 		$body.removeClass('js-pac-nav__body--is-loading').addClass('js-pac-nav__body--is-loaded');
 
-		// run it again on first run for the right hand desktop nav as things shift after first loading
-		if (repeatMain !== false && desktopNavSide === 'right') {
-			main(false);
-		}
-
+		// if callback exists, execute it
+		callback && callback();
 	}
 }
