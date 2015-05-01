@@ -1,0 +1,9 @@
+.js-sticky {
+	position: absolute; /* take it out of the flow */
+	width: 100%;
+	z-index: 100;
+}
+.js-sticky--is-scrolling {
+	position: fixed;
+	top: 0;
+}

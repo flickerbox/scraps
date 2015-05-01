@@ -48,51 +48,43 @@ function PacNav(callback){
 
 	function _init() {
 		$(document).ready(function() {
-			main(false);
+			main();
 		});
-		$window.resize( function() {
-			main(false);
+		$window.resize(function() {
+			main();
 		});
 	}
 
 	function main() {
-
+		// start by removing is-loaded classes and adding is-loading classes
 		$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 		$body.removeClass('js-pac-nav__body--is-loaded').addClass('js-pac-nav__body--is-loading');
-
-		if (debug === true) {
-			$pacNav.addClass('js-pac-nav--debug');
-		}
 
 		// get the Fixed Side Cutoff position in order to compare vs the menu items
 		if (desktopNavSide === 'left') {
 			fixedSideCutoff = Math.ceil($pacNav.find('.js-pac-nav__right').offset().left);
-			if (debug === true) {
-				$pacNav.find('.js-pac-nav__right').attr('data-js-pac-nav-position', fixedSideCutoff);
-			}
 		} else {
 			fixedSideCutoff = Math.ceil($pacNav.find('.js-pac-nav__left').offset().left + $pacNav.find('.js-pac-nav__left').width());
-			if (debug === true) {
-				$pacNav.find('.js-pac-nav__left').attr('data-js-pac-nav-position', fixedSideCutoff);
-			}
 		}
 
-		// figure out the items widths
-		// if ($window.width() > 0) {
-			// get the positions of everything:
-			desktopItemsCutoff = [];
-			desktopItemsWidth  = [];
-			$(desktopItems).each(function(i, el) {
-				desktopItemsWidth.push($(this).width());
-				if (desktopNavSide === 'left') {
-					desktopItemsCutoff.push(Math.floor($(this).offset().left + desktopItemsWidth[i]));
-				} else {
-					desktopItemsCutoff.push(Math.floor($(this).offset().left));
-				}
-			});
-		// }
+		if (debug === true) {
+			$pacNav.addClass('js-pac-nav--debug');
+			$pacNav.find('.js-pac-nav__' + desktopNavSide).attr('data-js-pac-nav-position', fixedSideCutoff);
+		}
 
-		// reset:
+		// get the positions of everything:
+		desktopItemsCutoff = [];
+		desktopItemsWidth  = [];
+		$(desktopItems).each(function(i, el) {
+			desktopItemsWidth.push($(this).width());
+			if (desktopNavSide === 'left') {
+				desktopItemsCutoff.push(Math.floor($(this).offset().left + desktopItemsWidth[i]));
+			} else {
+				desktopItemsCutoff.push(Math.floor($(this).offset().left));
+			}
+		});
+
+		// reset the nav items:
 		$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
 		$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
 		numOfHiddenItems = 0;
@@ -132,11 +124,6 @@ function PacNav(callback){
 
 					// now update the debug so we can see what's going on:
 					if (debug === true) {
-						console.log('i:                                ' + i);
-						console.log('desktopItemsWidth['+i+']:             ' + desktopItemsWidth[i]);
-						console.log('numOfHiddenItems:                 ' + numOfHiddenItems);
-						console.log('leftBreakPoint:                   ' + leftBreakPoint);
-						console.log('=========================');
 						for (var n = 0; n < numOfItems; n++) {
 							$(desktopItems[n]).attr('data-js-pac-nav-position', (leftBreakPoint));
 						}
@@ -146,21 +133,19 @@ function PacNav(callback){
 		}
 
 		if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - ( fewestHybridItems - 1 )) {
-			// Hybrid: there is at least one hidden item, but at least 'fewestHybridItems' remaining
-			// reset:
-			$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
-			$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
+			// Hybrid: there is at least one item hidden and at least 'fewestHybridItems' remaining
 			// hide the number of hidden from the tail of the desktopItems array
-			for (var index = desktopItems.length - 1; index > desktopItems.length - 1 - numOfHiddenItems; index--) {
-				$(desktopItems[index]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
-				$(mobileItems[index]).addClass('js-pac-nav__mobile-nav__item--is-visible');
+			for (var i = desktopItems.length - 1; i > desktopItems.length - 1 - numOfHiddenItems; i--) {
+				$(desktopItems[i]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
+				$(mobileItems[i]).addClass('js-pac-nav__mobile-nav__item--is-visible');
 			}
 
 			$pacNav.removeClass('js-pac-nav--is-desktop').removeClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-hybrid').addClass('js-pac-nav--is-running');
 			$body.removeClass('js-pac-nav__body--is-desktop').removeClass('js-pac-nav__body--is-mobile').addClass('js-pac-nav__body--is-hybrid').addClass('js-pac-nav__body--is-running');
 
 		} else if (numOfHiddenItems > 0) {
-			// Mobile: there 2 or fewer remaining items so we'll hide them all
+			// Mobile: there 2 or fewer remaining items
+			// we'll hide them all
 			$(desktopItems).addClass('js-pac-nav__desktop-nav__item--is-hidden');
 			$(mobileItems).addClass('js-pac-nav__mobile-nav__item--is-visible');
 
