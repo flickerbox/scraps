@@ -1,0 +1,29 @@
+html {
+	font-family: Arial, sans-serif;
+}
+button {
+	display: inline-block;
+	font-size: 1em;
+	margin-right: 0.5em;
+	border-radius: 4px;
+	background: whitesmoke;
+}
+p {
+	padding: 2em;
+	margin: 0;
+	background: whitesmoke;
+	width: 50%;
+}
+.js-quick-toggle--is-active {
+	background: #FFddFF;
+}
+*:focus {
+	outline: none;
+}
+.children {
+	display: none;
+}
+.children.js-quick-toggle--is-active {
+	display: block;
+	height: 200%;
+}

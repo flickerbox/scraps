@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Quick Toggle</title>
+	<meta name="description" content="Quick Toggle - Created by Flickerbox, Inc">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+	<link rel="stylesheet" type="text/css" href="quick-toggle.css" media="screen">
+	<script>document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js') // remove no-js</script>
+
+</head>
+<body>
+
+<button class="js-quick-toggle" data-js-quick-toggle-type="click" data-js-quick-toggle="click"><strong>Parent</strong> Child Click</button>
+<button class="js-quick-toggle" data-js-quick-toggle-type="click">Single Click</button>
+<p class="js-quick-toggle" data-js-quick-toggle-type="hover" data-js-quick-toggle="hover"><strong>Parent</strong> Child Hover</p>
+<p class="children" data-js-quick-toggle="hover">Parent <strong>Child</strong> Hover <button class="js-quick-toggle">Click Inside Hover</button></p>
+<p class="js-quick-toggle" data-js-quick-toggle-type="hover">Single Hover</p>
+<p class="children" data-js-quick-toggle="click">Parent <strong>Child</strong> Click</p>
+
+<script src="jquery-min.js"></script>
+<script src="quick-toggle.js"></script>
+</body>
+</html>
