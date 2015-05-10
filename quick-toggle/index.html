@@ -7,16 +7,33 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 	<link rel="stylesheet" type="text/css" href="quick-toggle.css" media="screen">
 	<script>document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/,'js') // remove no-js</script>
-
+	<script src="header.js"></script>
 </head>
 <body>
 
-<button class="js-quick-toggle" data-js-quick-toggle-type="click" data-js-quick-toggle="click"><strong>Parent</strong> Child Click</button>
-<button class="js-quick-toggle" data-js-quick-toggle-type="click">Single Click</button>
-<p class="js-quick-toggle" data-js-quick-toggle-type="hover" data-js-quick-toggle="hover"><strong>Parent</strong> Child Hover</p>
-<p class="children" data-js-quick-toggle="hover">Parent <strong>Child</strong> Hover <button class="js-quick-toggle">Click Inside Hover</button></p>
-<p class="js-quick-toggle" data-js-quick-toggle-type="hover">Single Hover</p>
-<p class="children" data-js-quick-toggle="click">Parent <strong>Child</strong> Click</p>
+<button class="js-quick-toggle" data-js-quick-toggle="the-clickers">1. <strong>Parent</strong> Child Click</button>
+<button class="js-quick-toggle">2. Single Click</button>
+<button class="js-quick-toggle" data-js-quick-toggle="always-toggle" data-js-quick-toggle-type="click-always">Always Toggle</button>
+
+<p class="js-quick-toggle" data-js-quick-toggle-type="hover" data-js-quick-toggle="the-hoverers">
+	3. <strong>Parent</strong> Child Hover
+	<button class="js-quick-toggle">4. Click Inside Parent Hover</button>
+</p>
+
+<p class="children" data-js-quick-toggle="the-hoverers">
+	5. Parent <strong>Child</strong> Hover
+	<button class="js-quick-toggle">6. Click Inside Child Hover</button>
+</p>
+
+<p class="js-quick-toggle" data-js-quick-toggle-type="hover">
+	7. Single Hover
+</p>
+<p class="children" data-js-quick-toggle="the-clickers">
+	8. Parent <strong>Child</strong> Click
+</p>
+<p class="children" data-js-quick-toggle="always-toggle">
+	Always Toggle
+</p>
 
 <script src="jquery-min.js"></script>
 <script src="quick-toggle.js"></script>
