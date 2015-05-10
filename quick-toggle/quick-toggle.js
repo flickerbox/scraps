@@ -9,13 +9,15 @@
 //   	.js-quick-toggle  // add this class to the element to be clicked or hovered
 //
 // Optional
-//   	[data-js-quick-toggle-type=[click|hover|click-always]] // default is 'click'
+//   	[data-js-quick-toggle-type=[click|hover|click-all]] // default is 'click'
 //			This is how the event is binded and is added to the .js-quick-toggle class.
-//			"click-always" makes the parent AND child elements toggle on click (not just the parent).
+//			"click-all" makes the parent AND child elements toggle on click (not just the parent).
 //
 //   	[data-js-quick-toggle=CLICK_ID]
 //			add data attribute to the trigger and any element you'd like to be active.
 //			CLICK_ID must be unique for each click item group.
+//
+//		[data-js-quick-toggle-type]
 //
 //------------------------------------------------------------------------------
 
@@ -26,6 +28,7 @@ function quickToggle() {
 	var rank;
 	var $this;
 	var reprieve = [];
+	var keepIt = false;
 	var $body = $('body');
 	var $html = $('html');
 
@@ -40,17 +43,17 @@ function quickToggle() {
 			if ( $this.attr('data-js-quick-toggle') && $this.hasClass('js-quick-toggle') ) {
 
 				// it has both. Let's check the data attribute to see if it has a child
-				if ( $body.find('[data-js-quick-toggle=' + $this.attr('data-js-quick-toggle') + ']').not('.js-quick-toggle').length ) {
+				if ( $body.find('[data-js-quick-toggle=' + $this.attr('data-js-quick-toggle') + ']').not('.js-quick-toggle').length > 0) {
 					$this.attr('data-js-quick-toggle-rank','parent');
 
 				// Otherwise we'll make it single
 				} else {
-					$this.attr('data-js-quick-toggle-rank','child');
+					$this.attr('data-js-quick-toggle-rank','single');
 				}
 
 				// add the toggle type:
 				toggleType = $this.attr('data-js-quick-toggle-type');
-				toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-always' ? toggleType : 'click';
+				toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-all' ? toggleType : 'click';
 				$this.attr('data-js-quick-toggle-type', toggleType);
 				if (isTouch) $this.css('cursor','pointer');
 
@@ -63,10 +66,10 @@ function quickToggle() {
 
 					// add the toggle type:
 					toggleType = $body.find('.js-quick-toggle[data-js-quick-toggle=' + $this.attr('data-js-quick-toggle') + ']').attr('data-js-quick-toggle-type');
-					toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-always' ? toggleType : 'click';
+					toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-all' ? toggleType : 'click';
 					$this.attr('data-js-quick-toggle-type', toggleType);
 
-					if (isTouch && toggleType === 'click-always') $this.css('cursor','pointer');
+					if (isTouch && toggleType === 'click-all') $this.css('cursor','pointer');
 
 				// it only has the data attribute but nothing else. we'll strip it so it's not involved anymore:
 				} else {
@@ -79,7 +82,7 @@ function quickToggle() {
 
 				// add the toggle type:
 				toggleType = $this.attr('data-js-quick-toggle-type');
-				toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-always' ? toggleType : 'click';
+				toggleType = toggleType === 'hover' || toggleType === 'click' || toggleType === 'click-all' ? toggleType : 'click';
 				$this.attr('data-js-quick-toggle-type', toggleType);
 				if (isTouch) $this.css('cursor','pointer');
 			}
@@ -100,15 +103,15 @@ function quickToggle() {
 		}
 		reprieval( $target );
 		$body.find('.js-quick-toggle--is-active').each(function(index, el) {
-			var removeIt = true;
+			keepIt = false;
 			if (reprieve.length) {
 				$(reprieve).each(function(n, reprieveEl) {
 					if ($(reprieveEl).target == $(el).target) {
-						removeIt = false;
+						keepIt = true;
 					}
 				});
 			}
-			if ( removeIt === true ) {
+			if ( keepIt === false ) {
 				$(el).removeClass('js-quick-toggle--is-active')
 			};
 		});
@@ -125,10 +128,10 @@ function quickToggle() {
 			rank = $target.attr('data-js-quick-toggle-rank');
 
 			// Make it happen on a click
-			if ( eventType === 'click' && ( toggleType === 'click' || toggleType === 'click-always' || isTouch === true ) ) {
+			if ( eventType === 'click' && ( toggleType === 'click' || toggleType === 'click-all' || isTouch === true ) ) {
 
 				// for click events we only care about parents and single clicks
-				if ( rank === 'parent' || rank === 'single' || toggleType === 'click-always' ) {
+				if ( rank === 'parent' || rank === 'single' || toggleType === 'click-all' ) {
 
 					// Current ACTIVE so make it INACTIVE
 					if ( $target.hasClass('js-quick-toggle--is-active') ) {
@@ -184,8 +187,6 @@ function quickToggle() {
 		$html.on('click', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'click'); });
 		$html.on('mouseover', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'hover'); });
 	}
-
-	isTouch = false;
 
 	if (isTouch) {
 		$body.prepend('<h1>IS TOUCH</h1>');
