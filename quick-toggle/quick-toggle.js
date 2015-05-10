@@ -3,7 +3,8 @@
 //
 // Summary
 //   	Quick Toggle 'toggles' the 'js-quick-toggle--is-active' class on click or
-//  	hover and optionally any associated data element(s).
+//  	hover and optionally any associated data element(s). Quick toggle automatically
+//		deactivates items when user clicks elsewhere
 //
 // Usage
 //   	.js-quick-toggle  // add this class to the element to be clicked or hovered
@@ -186,12 +187,6 @@ function quickToggle() {
 	function bind() {
 		$html.on('click', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'click'); });
 		$html.on('mouseover', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'hover'); });
-	}
-
-	if (isTouch) {
-		$body.prepend('<h1>IS TOUCH</h1>');
-	} else {
-		$body.prepend('<h1>IS NOT TOUCH</h1>');
 	}
 
 	bind();

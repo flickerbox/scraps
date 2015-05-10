@@ -8,6 +8,7 @@ button {
 	border-radius: 4px;
 	background: whitesmoke;
 }
+div,
 p {
 	padding: 2em;
 	margin: 0;
