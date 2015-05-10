@@ -97,7 +97,7 @@ function quickToggle() {
 		function reprieval($reprievalTarget) {
 			$reprievalTarget.parents('.js-quick-toggle--is-active').each(function(index, el) {
 				reprieve.push(el);
-				if ( $(el).attr('data-js-quick-toggle-rank') ) {
+				if ( $(el).attr('data-js-quick-toggle-rank') && $target.find($(el)).length ) {
 					reprieval( $body.find('.js-quick-toggle[data-js-quick-toggle-rank=' + $(el).attr('data-js-quick-toggle-rank') + ']') );
 				}
 			});
