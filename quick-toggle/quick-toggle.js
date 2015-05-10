@@ -10,12 +10,12 @@
 //
 // Optional
 //   	[data-js-quick-toggle-type=[click|hover|click-always]] // default is 'click'
-//			How the event is binded.
-//			Add to .js-quick-toggle class.
-//			Click-always will make the child element toggle on click (not just from the parent).
+//			This is how the event is binded and is added to the .js-quick-toggle class.
+//			"click-always" makes the parent AND child elements toggle on click (not just the parent).
 //
-//   	[data-js-quick-toggle=CLICK_ID]  // add data attribute to the trigger and any
-//   		element you'd like to be active. CLICK_ID must be unique for this click item.
+//   	[data-js-quick-toggle=CLICK_ID]
+//			add data attribute to the trigger and any element you'd like to be active.
+//			CLICK_ID must be unique for each click item group.
 //
 //------------------------------------------------------------------------------
 
@@ -25,6 +25,7 @@ function quickToggle() {
 	var toggleType;
 	var rank;
 	var $this;
+	var reprieve = [];
 	var $body = $('body');
 	var $html = $('html');
 
@@ -85,7 +86,33 @@ function quickToggle() {
 		});
 	}
 
-	// function quickToggleClearOutside
+	// quickToggleClear only clears finds all active parent-child and ALSO go up them
+	// Once  done going up, it clears them all out, but not the ones that get a reprieve!
+	function quickToggleClear($target) {
+		reprieve.length = 0; // reset the reprieve
+		function reprieval($reprievalTarget) {
+			$reprievalTarget.parents('.js-quick-toggle--is-active').each(function(index, el) {
+				reprieve.push(el);
+				if ( $(el).attr('data-js-quick-toggle-rank') ) {
+					reprieval( $body.find('.js-quick-toggle[data-js-quick-toggle-rank=' + $(el).attr('data-js-quick-toggle-rank') + ']') );
+				}
+			});
+		}
+		reprieval( $target );
+		$body.find('.js-quick-toggle--is-active').each(function(index, el) {
+			var removeIt = true;
+			if (reprieve.length) {
+				$(reprieve).each(function(n, reprieveEl) {
+					if ($(reprieveEl).target == $(el).target) {
+						removeIt = false;
+					}
+				});
+			}
+			if ( removeIt === true ) {
+				$(el).removeClass('js-quick-toggle--is-active')
+			};
+		});
+	}
 
 	function quickToggleGo(target,eventType) {
 		$target = $(target);
@@ -97,37 +124,24 @@ function quickToggle() {
 			toggleType = $target.attr('data-js-quick-toggle-type');
 			rank = $target.attr('data-js-quick-toggle-rank');
 
-			// Click Event:
-			if ( (eventType === 'click' && ( ( toggleType === 'click' || toggleType === 'click-always' )) || isTouch === true ) ) {
+			// Make it happen on a click
+			if ( eventType === 'click' && ( toggleType === 'click' || toggleType === 'click-always' || isTouch === true ) ) {
 
 				// for click events we only care about parents and single clicks
 				if ( rank === 'parent' || rank === 'single' || toggleType === 'click-always' ) {
 
-					// Current ACTIVE, make it INACTIVE
-					if ( $target.hasClass('js-quick-toggle--is-active') && $target.parents('.js-quick-toggle--is-active').length === 0 ) {
-						if (isTouch === true) {
-
-							$body.find('[data-js-quick-toggle-type]').removeClass('js-quick-toggle--is-active');
-						} else {
-							$body.find('[data-js-quick-toggle-type="click"], [data-js-quick-toggle-type="click-always"]').removeClass('js-quick-toggle--is-active');
+					// Current ACTIVE so make it INACTIVE
+					if ( $target.hasClass('js-quick-toggle--is-active') ) {
+						quickToggleClear($target);
+						$target.removeClass('js-quick-toggle--is-active');
+						if (rank === 'parent') {
+							$body.find('[data-js-quick-toggle=' + $target.attr('data-js-quick-toggle') + ']').removeClass('js-quick-toggle--is-active');
 						}
 
-					// Currently INACTIVE, make it ACTIVE
+					// Currently INACTIVE so make it ACTIVE
 					} else {
 						// clear out the rest to make the current one active
-						if (isTouch === true && rank !== 'child' ) {
-
-							$body.find('[data-js-quick-toggle-type]').each(function(index, el) {
-								// check each to make sure it is NOT a parent of the target element
-								if ( $(el).find($target).length === 0 ) {
-									console.log('clearing it here');
-									$(el).removeClass('js-quick-toggle--is-active');
-								}
-							});
-						} else {
-							$body.find('[data-js-quick-toggle-type="click"], [data-js-quick-toggle-type="click-always"]').removeClass('js-quick-toggle--is-active');
-						}
-
+						quickToggleClear($target);
 						$target.addClass('js-quick-toggle--is-active');
 
 						if (rank === 'parent') {
@@ -168,10 +182,10 @@ function quickToggle() {
 	}
 	function bind() {
 		$html.on('click', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'click'); });
-		// $html.on('mouseover', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'hover'); });
+		$html.on('mouseover', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'hover'); });
 	}
 
-	isTouch = true;
+	isTouch = false;
 
 	if (isTouch) {
 		$body.prepend('<h1>IS TOUCH</h1>');
