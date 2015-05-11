@@ -1,4 +1,5 @@
 //------------------------------------------------------------------------------
+//
 // Quick Toggle (combines click-toggle and touch-hover)
 //
 // Summary
@@ -10,15 +11,13 @@
 //   	.js-quick-toggle  // add this class to the element to be clicked or hovered
 //
 // Optional
-//   	[data-js-quick-toggle-type=[click|hover|click-all]] // default is 'click'
-//			This is how the event is binded and is added to the .js-quick-toggle class.
+//   	[data-js-quick-toggle-type=[click|hover|click-all]] // ('click' is default)
+//			How the event is bound. This data attribute is added to the .js-quick-toggle class.
 //			"click-all" makes the parent AND child elements toggle on click (not just the parent).
 //
 //   	[data-js-quick-toggle=CLICK_ID]
 //			add data attribute to the trigger and any element you'd like to be active.
 //			CLICK_ID must be unique for each click item group.
-//
-//		[data-js-quick-toggle-type]
 //
 //------------------------------------------------------------------------------
 
@@ -169,24 +168,28 @@ function quickToggle() {
 					if ( rank === 'parent' ) {
 						$body.find('[data-js-quick-toggle=' + $target.attr('data-js-quick-toggle') + ']').addClass('js-quick-toggle--is-active');
 					}
+
+					// if it's hover, clear just the hovers out
+					if ( eventType === 'mouseleave' && $target.parents('.js-quick-toggle--is-active').length === 0 ) {
+						$body.find('[data-js-quick-toggle-type="hover"]').removeClass('js-quick-toggle--is-active');
+					}
 				}
 			}
 
 		// Now check if the event is in the recipient; if NOT, clear it all out
+		// if it's a click, clear everything out
 		} else {
-			// if it's hover, clear just the hovers out
-			if (eventType === 'hover') {
-				$body.find('[data-js-quick-toggle-type="hover"]').removeClass('js-quick-toggle--is-active');
-
-			// if it's a click, clear everything out
-			} else if (eventType === 'click') {
-				$body.find('[data-js-quick-toggle-type]').removeClass('js-quick-toggle--is-active');
-			}
+			$body.find('[data-js-quick-toggle-type]').removeClass('js-quick-toggle--is-active');
 		}
 	}
 	function bind() {
-		$html.on('click', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'click'); });
-		$html.on('mouseover', function(event){ quickToggleGo(event.target ? event.target : event.srcElement,'hover'); });
+		$html.on('click', function(event) {
+			quickToggleGo( event.target ? event.target : event.srcElement, event.type );
+		});
+
+		$body.find('[data-js-quick-toggle-type="hover"]').on('mouseenter mouseleave', function(event) {
+			quickToggleGo( event.target ? event.target : event.srcElement, event.type );
+		});
 	}
 
 	bind();

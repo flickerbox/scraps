@@ -1,5 +1,6 @@
 html {
 	font-family: Arial, sans-serif;
+	background: #fafafa;
 }
 button {
 	display: inline-block;
@@ -10,6 +11,7 @@ button {
 }
 div,
 p {
+	outline: 1px dashed red;
 	padding: 2em;
 	margin: 0;
 	background: whitesmoke;
