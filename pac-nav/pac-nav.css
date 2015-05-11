@@ -23,7 +23,7 @@ li {
 	margin-right: auto;
 }
 .desktop-nav .primary-nav__list--1st {
-	bottom: 16px;
+	bottom: 0;
 	right: 0;
 }
 
@@ -41,13 +41,8 @@ li {
 	position: relative;
 	display: table-cell;
 }
-.desktop-nav .primary-nav__list--2nd {
-	position: absolute;
-	left: 0;
-	top: -1000em;
-}
-.desktop-nav .primary-nav__item--1st:hover .primary-nav__list--2nd {
-	top: 100%;
+.desktop-nav .primary-nav__item--1st .primary-nav__list--2nd {
+
 }
 
 .desktop-nav .primary-nav__link {
@@ -144,6 +139,11 @@ li {
 	top: 0;
 	opacity: 1;
 }
+.js-pac-nav__desktop-nav__item--parent > ul {
+	position: absolute;
+	left: 0;
+	top: -1000em;
+}
 
 /* Nav Toggle */
 .js-pac-nav__nav-toggle {
@@ -159,17 +159,23 @@ li {
 }
 .js-pac-nav__mobile-nav {
 	position: absolute;
-	top: 100%;
+	top: -1000px;
+	opacity: 0;
 	right: 0;
 }
 .js-pac-nav__mobile-nav__item {
+	display: none;
+}
+.js-pac-nav__mobile-nav__item--parent > ul {
 	display: none;
 }
 .js-pac-nav__mobile-nav__item--is-visible {
 	display: block;
 }
 
-/* Actions! */
+/*---------------------------------------------------------
+// Actions
+//--------------------------------------------------------*/
 .js-pac-nav--is-hybrid .js-pac-nav__nav-toggle,
 .js-pac-nav--is-mobile .js-pac-nav__nav-toggle {
 	z-index: 0;
@@ -180,11 +186,30 @@ li {
 .js-pac-nav--is-loading .js-pac-nav__desktop-nav {
 	right: 0 !important;
 }
+.js-pac-nav--is-mobile  .js-pac-nav__right {
+	width: 100%;
+}
+.js-pac-nav--is-loading .js-pac-nav__right {
+	width: auto !important;
+}
 
 .js-pac-nav__body--is-loaded .js-pac-nav__desktop-nav__item--is-hidden {
 	display: none !important;
 }
+.js-pac-nav__desktop-nav__item--parent {
+	cursor: pointer;
+}
+.js-pac-nav__desktop-nav__item--parent.js-pac-nav__item--is-active .primary-nav__list--2nd {
+	top: 100%;
+}
 
+.js-pac-nav__mobile-nav.js-pac-nav__item--is-active {
+	top: 100%;
+	opacity: 1;
+}
+.js-pac-nav__mobile-nav__item--parent.js-pac-nav__item--is-active > ul {
+	display: block;
+}
 /* Is Mobile */
 .js-pac-nav--is-mobile .nav-toggle__innr {
 	position: absolute;
@@ -194,7 +219,7 @@ li {
 	-ms-transform: translateY(-50%);
 	-webkit-transform: translateY(-50%);
 	transform: translateY(-50%);
-	cursor: default;
+	cursor: pointer;
 	font-size: 0;
 }
 

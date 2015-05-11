@@ -35,10 +35,71 @@ function PacNav(callback){
 	var desktopItems         = $pacNav.find('.js-pac-nav__desktop-nav > ul > li');
 	var mobileItems          = $pacNav.find('.js-pac-nav__mobile-nav > ul > li');
 	var numOfItems           = desktopItems.length;
-	var navToggleWidth       = $pacNav.find('.js-pac-nav__nav-toggle').width();
+	var $navToggle           = $pacNav.find('.js-pac-nav__nav-toggle');
+	var navToggleWidth       = $navToggle.width();
 
-	desktopItems.each(function() { $(this).addClass('js-pac-nav__desktop-nav__item') });
-	mobileItems.each(function() { $(this).addClass('js-pac-nav__mobile-nav__item') });
+	var isTouch = ((('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0))) ? true : false;
+
+	desktopItems.each(function() {
+		$(this).addClass('js-pac-nav__desktop-nav__item');
+	});
+	mobileItems.each(function() {
+		$(this).addClass('js-pac-nav__mobile-nav__item');
+	});
+
+	// add the parent classes and bindings:
+	$desktopNav.find('li > a + ul').each(function() {
+		$(this).parent('li').addClass('js-pac-nav__desktop-nav__item--parent').on('click mouseenter mouseleave', function(event) {
+			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
+			if (event.type === 'mouseenter') {
+				$target.addClass('js-pac-nav__item--is-active');
+			} else if (event.type === 'mouseleave') {
+				$target.removeClass('js-pac-nav__item--is-active');
+			} else if ( isTouch === true ) {
+				pacNavEventActivate($target);
+			}
+		});
+	});
+	$mobileNav.find('li > a + ul').each(function() {
+		$(this).parent('li').addClass('js-pac-nav__mobile-nav__item--parent').on('click', function(event) {
+			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__mobile-nav__item--parent');
+			pacNavEventActivate($target);
+		});
+	});
+
+	$navToggle.on('click mouseenter mouseleave', function(event) {
+		navToggleEvent($navToggle,event);
+	});
+
+	$mobileNav.on('mouseenter mouseleave', function(event) {
+		navToggleEvent($mobileNav,event);
+	});
+
+	function navToggleEvent($target,event) {
+		if (event.type === 'mouseenter' && $pacNav.hasClass('js-pac-nav--is-hybrid')) {
+			$navToggle.addClass('js-pac-nav__item--is-active');
+			$mobileNav.addClass('js-pac-nav__item--is-active');
+		} else if (event.type === 'mouseleave' && $pacNav.hasClass('js-pac-nav--is-hybrid')) {
+			$navToggle.removeClass('js-pac-nav__item--is-active');
+			$mobileNav.removeClass('js-pac-nav__item--is-active');
+		} else if ( event.type === 'click' ) {
+			if ( $navToggle.hasClass('js-pac-nav__item--is-active') ) {
+				$navToggle.removeClass('js-pac-nav__item--is-active');
+				$mobileNav.removeClass('js-pac-nav__item--is-active');
+			} else {
+				$navToggle.addClass('js-pac-nav__item--is-active');
+				$mobileNav.addClass('js-pac-nav__item--is-active');
+			}
+		}
+	}
+
+	function pacNavEventActivate($item) {
+		if ( $item.hasClass('js-pac-nav__item--is-active') ) {
+			$item.removeClass('js-pac-nav__item--is-active');
+		} else {
+			$item.addClass('js-pac-nav__item--is-active').siblings().removeClass('js-pac-nav__item--is-active');
+		}
+	}
 
 	if ($desktopNav.closest('.js-pac-nav__right').length) {
 		desktopNavSide = 'right';
@@ -54,22 +115,30 @@ function PacNav(callback){
 			main();
 		});
 	}
+	function pacNavEventClear() {
+		$pacNav.find('.js-pac-nav__item--is-active').removeClass('js-pac-nav__item--is-active');
+	}
 
 	function main() {
-		// start by removing is-loaded classes and adding is-loading classes
+		pacNavEventClear();
 		$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 		$body.removeClass('js-pac-nav__body--is-loaded').addClass('js-pac-nav__body--is-loading');
+
+		if (debug === true) {
+			$pacNav.addClass('js-pac-nav--debug');
+		}
 
 		// get the Fixed Side Cutoff position in order to compare vs the menu items
 		if (desktopNavSide === 'left') {
 			fixedSideCutoff = Math.ceil($pacNav.find('.js-pac-nav__right').offset().left);
+			if (debug === true) {
+				$pacNav.find('.js-pac-nav__right').attr('data-js-pac-nav-position', fixedSideCutoff);
+			}
 		} else {
 			fixedSideCutoff = Math.ceil($pacNav.find('.js-pac-nav__left').offset().left + $pacNav.find('.js-pac-nav__left').width());
-		}
-
-		if (debug === true) {
-			$pacNav.addClass('js-pac-nav--debug');
-			$pacNav.find('.js-pac-nav__' + desktopNavSide).attr('data-js-pac-nav-position', fixedSideCutoff);
+			if (debug === true) {
+				$pacNav.find('.js-pac-nav__left').attr('data-js-pac-nav-position', fixedSideCutoff);
+			}
 		}
 
 		// get the positions of everything:
@@ -84,7 +153,7 @@ function PacNav(callback){
 			}
 		});
 
-		// reset the nav items:
+		// reset:
 		$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
 		$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
 		numOfHiddenItems = 0;
@@ -124,6 +193,11 @@ function PacNav(callback){
 
 					// now update the debug so we can see what's going on:
 					if (debug === true) {
+						console.log('i:                                ' + i);
+						console.log('desktopItemsWidth['+i+']:             ' + desktopItemsWidth[i]);
+						console.log('numOfHiddenItems:                 ' + numOfHiddenItems);
+						console.log('leftBreakPoint:                   ' + leftBreakPoint);
+						console.log('=========================');
 						for (var n = 0; n < numOfItems; n++) {
 							$(desktopItems[n]).attr('data-js-pac-nav-position', (leftBreakPoint));
 						}
@@ -133,19 +207,21 @@ function PacNav(callback){
 		}
 
 		if (numOfHiddenItems > 0 && numOfHiddenItems < desktopItems.length - ( fewestHybridItems - 1 )) {
-			// Hybrid: there is at least one item hidden and at least 'fewestHybridItems' remaining
+			// Hybrid: there is at least one hidden item, but at least 'fewestHybridItems' remaining
+			// reset:
+			$(desktopItems).removeClass('js-pac-nav__desktop-nav__item--is-hidden');
+			$(mobileItems).removeClass('js-pac-nav__mobile-nav__item--is-visible');
 			// hide the number of hidden from the tail of the desktopItems array
-			for (var i = desktopItems.length - 1; i > desktopItems.length - 1 - numOfHiddenItems; i--) {
-				$(desktopItems[i]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
-				$(mobileItems[i]).addClass('js-pac-nav__mobile-nav__item--is-visible');
+			for (var index = desktopItems.length - 1; index > desktopItems.length - 1 - numOfHiddenItems; index--) {
+				$(desktopItems[index]).addClass('js-pac-nav__desktop-nav__item--is-hidden');
+				$(mobileItems[index]).addClass('js-pac-nav__mobile-nav__item--is-visible');
 			}
 
 			$pacNav.removeClass('js-pac-nav--is-desktop').removeClass('js-pac-nav--is-mobile').addClass('js-pac-nav--is-hybrid').addClass('js-pac-nav--is-running');
 			$body.removeClass('js-pac-nav__body--is-desktop').removeClass('js-pac-nav__body--is-mobile').addClass('js-pac-nav__body--is-hybrid').addClass('js-pac-nav__body--is-running');
 
 		} else if (numOfHiddenItems > 0) {
-			// Mobile: there 2 or fewer remaining items
-			// we'll hide them all
+			// Mobile: there 2 or fewer remaining items so we'll hide them all
 			$(desktopItems).addClass('js-pac-nav__desktop-nav__item--is-hidden');
 			$(mobileItems).addClass('js-pac-nav__mobile-nav__item--is-visible');
 
