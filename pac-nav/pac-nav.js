@@ -48,48 +48,14 @@ function PacNav(callback){
 		$(this).addClass('js-pac-nav__mobile-nav__item');
 	});
 
-	// add the parent classes and bindings:
+	// add the parent classes:
 	$desktopNav.find('li > a + ul').each(function() {
-		$this = $(this).parent('li');
-		$this.addClass('js-pac-nav__desktop-nav__item--parent');
-		if (isTouch === true) {
-			$this.on('click', function(event) {
-				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
-				pacNavEventActivate($target);
-			});
-		} else {
-			$this.on('mouseenter mouseleave', function(event) {
-				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
-				if (event.type === 'mouseenter') {
-					$target.addClass('js-pac-nav__item--is-active');
-				} else {
-					$target.removeClass('js-pac-nav__item--is-active');
-				}
-			});
-		}
+		$(this).parent('li').addClass('js-pac-nav__desktop-nav__item--parent');
 	});
 
 	$mobileNav.find('li > a + ul').each(function() {
-		$(this).parent('li').addClass('js-pac-nav__mobile-nav__item--parent').on('click', function(event) {
-			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__mobile-nav__item--parent');
-			pacNavEventActivate($target);
-		});
+		$(this).parent('li').addClass('js-pac-nav__mobile-nav__item--parent');
 	});
-
-	if (isTouch === true) {
-		$navToggle.on('click', function(event) {
-			navToggleEvent($navToggle,event);
-		});
-	} else {
-		$navToggle.on('mouseenter mouseleave', function(event) {
-			navToggleEvent($navToggle,event);
-		});
-		$mobileNav.on('mouseenter mouseleave', function(event) {
-			navToggleEvent($mobileNav,event);
-		});
-	}
-
-
 
 	if ($desktopNav.closest('.js-pac-nav__right').length) {
 		desktopNavSide = 'right';
@@ -128,9 +94,46 @@ function PacNav(callback){
 	function _init() {
 		$(document).ready(function() {
 			main();
+			bindings();
 		});
 		$window.resize(function() {
 			main();
+			bindings();
+		});
+	}
+
+	function bindings() {
+		if (isTouch === true) {
+			$body.find('.js-pac-nav__desktop-nav__item--parent').on('click', function(event) {
+				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
+				pacNavEventActivate($target);
+			});
+			$navToggle.on('click', function(event) {
+				navToggleEvent($navToggle,event);
+			});
+		} else {
+			$body.find('.js-pac-nav__desktop-nav__item--parent').on('mouseenter mouseleave', function(event) {
+				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
+				if (event.type === 'mouseenter') {
+					$target.addClass('js-pac-nav__item--is-active');
+				} else {
+					$target.removeClass('js-pac-nav__item--is-active');
+				}
+			});
+			$navToggle.on('click', function(event) {
+				console.log('here');
+				navToggleEvent($navToggle,event);
+			});
+			$navToggle.on('mouseenter mouseleave', function(event) {
+				navToggleEvent($navToggle,event);
+			});
+			$mobileNav.on('mouseenter mouseleave', function(event) {
+				navToggleEvent($mobileNav,event);
+			});
+		}
+		$body.find('.js-pac-nav__mobile-nav__item--parent').on('click', function(event) {
+			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__mobile-nav__item--parent');
+			pacNavEventActivate($target);
 		});
 	}
 
@@ -334,5 +337,4 @@ function PacNav(callback){
 			};
 		}
 	}
-
 }

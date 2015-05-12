@@ -43,7 +43,7 @@ li {
 /* Nav Toggle */
 .nav-toggle {
 	width: 50px;
-	height: 100px;
+	height: 70px;
 }
 .nav-toggle__innr {
 	text-align: center;
@@ -81,7 +81,8 @@ li {
 .js-pac-nav__inner,
 .js-pac-nav__left,
 .js-pac-nav__right {
-	height: 100px;
+	height: 70px;
+	z-index: 1000;
 }
 .js-pac-nav__inner {
 	position: relative;
@@ -141,8 +142,8 @@ li {
 
 /* Nav Toggle */
 .js-pac-nav__nav-toggle {
-	z-index: -1;
 	position: absolute;
+	top: -1000px;
 	right: 0;
 	cursor: pointer;  /* <= THIS IS VERY IMPORTANT. JS IOS NEEDS IT TO BE ABLE TO 'SEE' IT */
 }
@@ -172,7 +173,7 @@ li {
 //--------------------------------------------------------*/
 .js-pac-nav--is-hybrid .js-pac-nav__nav-toggle,
 .js-pac-nav--is-mobile .js-pac-nav__nav-toggle {
-	z-index: 0;
+	top: auto;
 }
 .js-pac-nav--is-loaded .js-pac-nav__desktop-nav {
 	opacity: 1;
