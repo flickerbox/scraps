@@ -106,9 +106,12 @@ function PacNav(callback){
 		if (isTouch === true) {
 			$body.find('.js-pac-nav__desktop-nav__item--parent').off().on('click', function(event) {
 				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
+				$navToggle.removeClass('js-pac-nav__item--is-active');
+				$mobileNav.removeClass('js-pac-nav__item--is-active');
 				pacNavEventActivate($target);
 			});
 			$navToggle.off().on('click', function(event) {
+				$body.find('.js-pac-nav__desktop-nav__item--parent').removeClass('js-pac-nav__item--is-active');
 				navToggleEvent($navToggle,event);
 			});
 		} else {
