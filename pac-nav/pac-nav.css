@@ -22,10 +22,6 @@ li {
 	margin-left: auto;
 	margin-right: auto;
 }
-.desktop-nav .primary-nav__list--1st {
-	bottom: 0;
-	right: 0;
-}
 .desktop-nav .primary-nav__item {
 	outline: 1px dashed green;
 }
@@ -109,6 +105,10 @@ li {
 .js-pac-nav__pac-item {
 	display: table-cell;
 	vertical-align: middle;
+}
+.js-pac-nav-fix__fixed-item {
+	display: block;
+	cursor: pointer;
 }
 
 /* Desktop Nav */

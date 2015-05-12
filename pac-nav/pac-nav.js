@@ -23,6 +23,7 @@ function PacNav(callback){
 	var numOfHiddenItems     = 0;
 	var leftBreakPoint       = 0;
 	var fixedSideCutoff;
+	var $this;
 
 	var init                 = _init();
 
@@ -49,17 +50,25 @@ function PacNav(callback){
 
 	// add the parent classes and bindings:
 	$desktopNav.find('li > a + ul').each(function() {
-		$(this).parent('li').addClass('js-pac-nav__desktop-nav__item--parent').on('click mouseenter mouseleave', function(event) {
-			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
-			if (event.type === 'mouseenter') {
-				$target.addClass('js-pac-nav__item--is-active');
-			} else if (event.type === 'mouseleave') {
-				$target.removeClass('js-pac-nav__item--is-active');
-			} else if ( isTouch === true ) {
+		$this = $(this).parent('li');
+		$this.addClass('js-pac-nav__desktop-nav__item--parent');
+		if (isTouch === true) {
+			$this.on('click', function(event) {
+				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
 				pacNavEventActivate($target);
-			}
-		});
+			});
+		} else {
+			$this.on('mouseenter mouseleave', function(event) {
+				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
+				if (event.type === 'mouseenter') {
+					$target.addClass('js-pac-nav__item--is-active');
+				} else {
+					$target.removeClass('js-pac-nav__item--is-active');
+				}
+			});
+		}
 	});
+
 	$mobileNav.find('li > a + ul').each(function() {
 		$(this).parent('li').addClass('js-pac-nav__mobile-nav__item--parent').on('click', function(event) {
 			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__mobile-nav__item--parent');
@@ -67,13 +76,28 @@ function PacNav(callback){
 		});
 	});
 
-	$navToggle.on('click mouseenter mouseleave', function(event) {
-		navToggleEvent($navToggle,event);
-	});
+	if (isTouch === true) {
+		$navToggle.on('click', function(event) {
+			navToggleEvent($navToggle,event);
+		});
+	} else {
+		$navToggle.on('mouseenter mouseleave', function(event) {
+			navToggleEvent($navToggle,event);
+		});
+		$mobileNav.on('mouseenter mouseleave', function(event) {
+			navToggleEvent($mobileNav,event);
+		});
+	}
 
-	$mobileNav.on('mouseenter mouseleave', function(event) {
-		navToggleEvent($mobileNav,event);
-	});
+
+
+	if ($desktopNav.closest('.js-pac-nav__right').length) {
+		desktopNavSide = 'right';
+	} else if ($desktopNav.closest('.js-pac-nav__left').length) {
+		desktopNavSide = 'left';
+	}
+
+	pacNavFix();
 
 	function navToggleEvent($target,event) {
 		if (event.type === 'mouseenter' && $pacNav.hasClass('js-pac-nav--is-hybrid')) {
@@ -101,12 +125,6 @@ function PacNav(callback){
 		}
 	}
 
-	if ($desktopNav.closest('.js-pac-nav__right').length) {
-		desktopNavSide = 'right';
-	} else if ($desktopNav.closest('.js-pac-nav__left').length) {
-		desktopNavSide = 'left';
-	}
-
 	function _init() {
 		$(document).ready(function() {
 			main();
@@ -115,12 +133,9 @@ function PacNav(callback){
 			main();
 		});
 	}
-	function pacNavEventClear() {
-		$pacNav.find('.js-pac-nav__item--is-active').removeClass('js-pac-nav__item--is-active');
-	}
 
 	function main() {
-		pacNavEventClear();
+		$pacNav.find('.js-pac-nav__item--is-active').removeClass('js-pac-nav__item--is-active');
 		$pacNav.removeClass('js-pac-nav--is-loaded').addClass('js-pac-nav--is-loading');
 		$body.removeClass('js-pac-nav__body--is-loaded').addClass('js-pac-nav__body--is-loading');
 
@@ -249,4 +264,75 @@ function PacNav(callback){
 		// if callback exists, execute it
 		callback && callback();
 	}
+
+
+
+	//---------------------------------------------------------
+	// Pac Nav Fix
+	//
+	// Summary:
+	// 		Moves parent items that have links into the top position of their child items
+	//		Used to automatically create touch links without having to rewrite code
+	//
+	// Usage:
+	//		[data-js-pac-nav-fix-parent-label="LABEL"]  // optional new label for parent, non-link
+	//		[data-js-pac-nav-fix-label="LABEL"]  // optional new label for moved nav inner link
+	//---------------------------------------------------------
+
+	function pacNavFix() {
+		pacNavFixGo($desktopNav,'touch-only');
+		pacNavFixGo($mobileNav,'all');
+
+		function pacNavFixGo($pacNavFix,how) {
+			//---------------------------------------------------------
+			// Replace Tag
+			//---------------------------------------------------------
+			$.extend({
+				replaceTag: function (currentElem, newTagObj, keepProps) {
+					var $currentElem = $(currentElem);
+					var i, $newTag = $(newTagObj).clone();
+					if (keepProps) {//{{{
+						newTag = $newTag[0];
+						newTag.className = currentElem.className;
+						$.extend(newTag.classList, currentElem.classList);
+						$.extend(newTag.attributes, currentElem.attributes);
+					}//}}}
+					$currentElem.wrapAll($newTag);
+					$currentElem.contents().unwrap();
+					// return node; (Error spotted by Frank van Luijn)
+					return this; // Suggested by ColeLawrence
+				}
+			});
+
+			$.fn.extend({
+				replaceTag: function (newTagObj, keepProps) {
+					// "return" suggested by ColeLawrence
+					return this.each(function() {
+						jQuery.replaceTag(this, newTagObj, keepProps);
+					});
+				}
+			});
+
+			if ( ( how === 'touch-only' && isTouch === true ) || how === 'all' ) {
+				// find EACH li > a + ul
+				$pacNavFix.find('li > a + ul').each(function() {
+					var $pacNavFixParent = $(this).parent('li');
+					var $pacNavFixParentLink = $pacNavFixParent.find('a').first();
+					var pacNavFixLabel = $pacNavFixParentLink.attr('data-js-pac-nav-fix-label') ? $pacNavFixParentLink.attr('data-js-pac-nav-fix-label') : $pacNavFixParentLink.text();
+					var pacNavFixParentLabel = $pacNavFixParentLink.attr('data-js-pac-nav-fix-parent-label') ? $pacNavFixParentLink.attr('data-js-pac-nav-fix-parent-label') : $pacNavFixParentLink.text();
+					$pacNavFixParentLink.text(pacNavFixParentLabel);
+					var $pacNavFixNewItem = $pacNavFixParent.find('li').first().clone();
+					$pacNavFixNewItem.prependTo($pacNavFixParent.find('ul').first());
+					var $pacNavFixNewLink = $pacNavFixNewItem.find('a').first();
+					$pacNavFixNewLink.attr('href', $pacNavFixParentLink.attr('href')).text(pacNavFixLabel);
+
+					// now clean up the old link:
+					$pacNavFixParentLink.addClass('js-pac-nav-fix__fixed-item');
+					$pacNavFixParentLink.replaceTag('<div>', true);
+					$pacNavFixParentLink.attr('href','');
+				});
+			};
+		}
+	}
+
 }
