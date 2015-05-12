@@ -26,23 +26,11 @@ li {
 	bottom: 0;
 	right: 0;
 }
-
-.desktop-nav .primary-nav__link,
-.desktop-nav .primary-nav__item {
-	display: block;
-}
 .desktop-nav .primary-nav__item {
 	outline: 1px dashed green;
 }
 .desktop-nav .primary-nav__link {
 	padding: 1em 3em;
-}
-.desktop-nav .primary-nav__item--1st {
-	position: relative;
-	display: table-cell;
-}
-.desktop-nav .primary-nav__item--1st .primary-nav__list--2nd {
-
 }
 
 .desktop-nav .primary-nav__link {
@@ -135,9 +123,15 @@ li {
 	opacity: 1;
 }
 .js-pac-nav__desktop-nav__item {
+	position: relative;
+	display: table-cell;
 	white-space: nowrap;
 	top: 0;
 	opacity: 1;
+}
+.js-pac-nav__mobile-nav__item a,
+.js-pac-nav__desktop-nav__item a {
+	display: block;
 }
 .js-pac-nav__desktop-nav__item--parent > ul {
 	position: absolute;
