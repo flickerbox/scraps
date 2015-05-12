@@ -104,11 +104,11 @@ function PacNav(callback){
 
 	function bindings() {
 		if (isTouch === true) {
-			$body.find('.js-pac-nav__desktop-nav__item--parent').on('click', function(event) {
+			$body.find('.js-pac-nav__desktop-nav__item--parent').off().on('click', function(event) {
 				$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__desktop-nav__item--parent');
 				pacNavEventActivate($target);
 			});
-			$navToggle.on('click', function(event) {
+			$navToggle.off().on('click', function(event) {
 				navToggleEvent($navToggle,event);
 			});
 		} else {
@@ -120,18 +120,22 @@ function PacNav(callback){
 					$target.removeClass('js-pac-nav__item--is-active');
 				}
 			});
-			$navToggle.on('click', function(event) {
-				console.log('here');
-				navToggleEvent($navToggle,event);
-			});
-			$navToggle.on('mouseenter mouseleave', function(event) {
-				navToggleEvent($navToggle,event);
-			});
-			$mobileNav.on('mouseenter mouseleave', function(event) {
-				navToggleEvent($mobileNav,event);
-			});
+			if ( $pacNav.hasClass('js-pac-nav--is-hybrid') ) {
+				$navToggle.on('mouseenter mouseleave', function(event) {
+					navToggleEvent($navToggle,event);
+				});
+
+				$mobileNav.on('mouseenter mouseleave', function(event) {
+					navToggleEvent($mobileNav,event);
+				});
+			} else if ( $pacNav.hasClass('js-pac-nav--is-mobile') ) {
+				$navToggle.off().on('click', function(event) {
+					navToggleEvent($navToggle,event);
+				});
+			}
 		}
-		$body.find('.js-pac-nav__mobile-nav__item--parent').on('click', function(event) {
+
+		$body.find('.js-pac-nav__mobile-nav__item--parent').off().on('click', function(event) {
 			$target = $(event.target ? event.target : event.srcElement).closest('.js-pac-nav__mobile-nav__item--parent');
 			pacNavEventActivate($target);
 		});
