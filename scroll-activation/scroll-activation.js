@@ -1,20 +1,30 @@
 //------------------------------------------------------------------------------
-// Scroll Activation
 //
-// This module makes a section "Active" when scrolling down
+//	Scroll Activation
 //
-// Add .scroll-activation to the container
-// Add (optional) .scroll-activation--keep-active to keep the section active once activated; otherwise,
-//     the active will be removed after going back up.
-// Add (optional) .scroll-activation--trigger to the element on the page which activates the section
-//   Optional:
-//     Add 'data-target="any-name"' on the target element and any element you'd like to set 'active'
-//     Add 'data-scroll-position="top" to wait until scroll activator hits the top' (this makes room for sticky nav)
+//	Summary
+//		Scroll Activation makes a section "active" when it's entire container is scrolled upon
 //
-// Output
-//   Adds 'active' class to when active
+//	Usage
+//		.js-scroll-activation
+//			Add this class to the container you'd like to make active on scrolling.
+//
+//	Optional
+//		.js-scroll-activation--keep-active
+//			Keeps the section always active once activated; otherwise, the active
+//			will be removed after going back up.
+//     [data-target="TARGET_ID]
+//			Add to the target element and any element you'd like to set 'active'
+//     [data-scroll-position="top"]
+//			Activates js-scroll-position on the top of the container instead of the bottom
+//
+// 	Creates
+//		.js-scroll-activation--is-active
+//			This class gets added to both the .js-scroll-activation class and the
+//			[data-target="TARGET_ID]
+//
 //------------------------------------------------------------------------------
-var scrollActivate = function(scrollActivationItems) {
+var scrollActivationGo = function(scrollActivationItems) {
 	var $window = $(window);
 	scrollActivationItems.each(function() {
 		if (!($(this).hasClass('js-scroll-activation--stop'))) {
@@ -36,11 +46,11 @@ var scrollActivate = function(scrollActivationItems) {
 				var windowOffset = $window.height()
 			}
 			if (   $window.scrollTop() > (scrollActivationTop - windowOffset - scrollOffset) ) {
-				$scrollItem.addClass('active');
-				$('[data-target=' + $scrollItem.attr('data-target') + ']').addClass('active');
+				$scrollItem.addClass('js-scroll-activation--is-active');
+				$('[data-target=' + $scrollItem.attr('data-target') + ']').addClass('js-scroll-activation--is-active');
 			} else if ( !($scrollItem.hasClass('js-scroll-activation--keep-active')) ) {
-				$scrollItem.removeClass('active');
-				$('[data-target=' + $scrollItem.attr('data-target') + ']').removeClass('active');
+				$scrollItem.removeClass('js-scroll-activation--is-active');
+				$('[data-target=' + $scrollItem.attr('data-target') + ']').removeClass('js-scroll-activation--is-active');
 			}
 		}
 	});
@@ -50,11 +60,11 @@ function scrollActivation() {
 	window.setTimeout(function() {
 		var $window = $(window);
 		$window.scroll(function () {
-			scrollActivate(scrollActivationItems);
+			scrollActivationGo(scrollActivationItems);
 		});
 	}, 500); // wait half a second for the page to load
 }
 
 var scrollActivationItems = $('.js-scroll-activation');
 scrollActivation(scrollActivationItems);
-scrollActivate(scrollActivationItems);
+scrollActivationGo(scrollActivationItems);

@@ -23,8 +23,8 @@ li {
 	clear: both;
 }
 .site-container {
-	width: 95%;
-	max-width: 1000px;
+	width: 100%;
+	max-width: 600px;
 	margin-left: auto;
 	margin-right: auto;
 	background-color: rgba(255,0,0,0.25);
@@ -37,15 +37,11 @@ li {
 	float: left;
 	width: 66.66%;
 }
+.inner {
+	margin: 1em;
+}
 hr {
 	margin: 2em 0;
-}
-
-.js-container-overflow {
-}
-
-[class*=js-container-overflow__item] {
-	outline: 1px dashed green;
 }
 
 .js-container-overflow__item--go-right {

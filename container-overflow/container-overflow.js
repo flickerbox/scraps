@@ -33,11 +33,8 @@ function ContainerOverflow() {
 	var init               = _init();
 
 	function _init() {
-		// main();
-		$window.load( main );
-		$window.resize( function() {
-			main();
-		});
+		$(document).ready( function() { main() });
+		$window.resize( function() { main() });
 	}
 
 	function main() {
