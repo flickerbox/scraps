@@ -15,9 +15,11 @@
 //		[data-js-responsive-move-breakpoint=NUMBER]
 //			The max-breakpoint in pixels. Default is 767.
 //
-//	Creates:
+//	Creates
 //		.js-responsive-move--is-active
 //			Added to the element which is currently active
+//		.js-responsive-move--is-inactive
+//			Added to the element which is currently inactive
 //
 //------------------------------------------------------------------------------
 function responsiveMove() {
@@ -26,11 +28,11 @@ function responsiveMove() {
 	$items.each(function(index, el) {
 		function responsiveMoveGo() {
 			if (window.matchMedia && window.matchMedia('(max-width: ' + breakpoint + 'px)').matches) {
-				$item.removeClass('js-responsive-move--is-active').html('');
-				$target.addClass('js-responsive-move--is-active').html(content);
+				$item.removeClass('js-responsive-move--is-active').addClass('js-responsive-move--is-inactive').html('');
+				$target.removeClass('js-responsive-move--is-inactive').addClass('js-responsive-move--is-active').html(content);
 			} else {
-				$target.removeClass('js-responsive-move--is-active').html('');
-				$item.addClass('js-responsive-move--is-active').html(content);
+				$target.removeClass('js-responsive-move--is-active').addClass('js-responsive-move--is-inactive').html('');
+				$item.removeClass('js-responsive-move--is-inactive').addClass('js-responsive-move--is-active').html(content);
 			}
 		}
 		var $item = $(this);
