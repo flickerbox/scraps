@@ -13,7 +13,7 @@
 
 <button class="js-quick-toggle" data-js-quick-toggle="the-clickers">1. <strong>Parent</strong> Child Click</button>
 <button class="js-quick-toggle">2. Single Click</button>
-<button class="js-quick-toggle" data-js-quick-toggle="always-toggle" data-js-quick-toggle-type="click-all">Always Toggle</button>
+<button class="js-quick-toggle" data-js-quick-toggle="gonna-always-toggle" data-js-quick-toggle-type="click-all">Always Toggle</button>
 
 <div class="js-quick-toggle" data-js-quick-toggle-type="hover" data-js-quick-toggle="the-hoverers">
 	3. <strong>Parent</strong> Child Hover
@@ -39,9 +39,19 @@
 <p class="children" data-js-quick-toggle="the-clickers">
 	8. Parent <strong>Child</strong> Click
 </p>
-<p class="children" data-js-quick-toggle="always-toggle">
+<p class="children" data-js-quick-toggle="gonna-always-toggle">
 	Always Toggle
 </p>
+
+
+<div class="box-toggle js-quick-toggle" data-js-quick-toggle-type="hover">
+	<div class="box-toggle__first">BEFORE</div>
+	<div class="box-toggle__second">AFTER</div>
+</div>
+<div class="box-toggle js-quick-toggle" data-js-quick-toggle-type="hover">
+	<div class="box-toggle__first box-toggle__first--2">BEFORE</div>
+	<div class="box-toggle__second box-toggle__second--2">AFTER</div>
+</div>
 
 <script src="jquery-min.js"></script>
 <script src="quick-toggle.js"></script>

@@ -139,7 +139,10 @@ li {
 	left: 0;
 	top: -1000em;
 }
-
+.js-pac-nav__desktop-nav__item--parent:last-child > ul {
+	left: auto;
+	right: 0;
+}
 /* Nav Toggle */
 .js-pac-nav__nav-toggle {
 	position: absolute;

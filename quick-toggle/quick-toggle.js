@@ -31,6 +31,7 @@ function quickToggle() {
 	var keepIt = false;
 	var $body = $('body');
 	var $html = $('html');
+	var $document = $(document);
 
 	var init = _init();
 
@@ -183,7 +184,7 @@ function quickToggle() {
 		}
 	}
 	function bind() {
-		$html.on('click', function(event) {
+		$document.on('click', function(event) {
 			quickToggleGo( event.target ? event.target : event.srcElement, event.type );
 		});
 

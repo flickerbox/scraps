@@ -1,3 +1,9 @@
+/*---------------------------------------------------------
+// Quick Toggle CSS
+// None of this stuff is really needed for quick toggle to
+// run correctly. Only used for the helper stuff
+//--------------------------------------------------------*/
+
 html {
 	font-family: Arial, sans-serif;
 	background: #fafafa;
@@ -29,4 +35,43 @@ p {
 .children.js-quick-toggle--is-active {
 	display: block;
 	height: 200%;
+}
+
+.box-toggle,
+.box-toggle__first,
+.box-toggle__second {
+	padding: 0;
+	outline: 0;
+	width: 200px;
+	height: 200px;
+	max-width: 200px;
+	max-height: 200px;
+	position: relative;
+	-webkit-transition: 0.15s;
+	transition: 0.15s;
+	float: left;
+}
+.box-toggle {
+}
+
+.box-toggle__first {
+	background-image: url(http://lorempixel.com/output/cats-q-g-200-200-9.jpg);
+	-webkit-filter: opacity(.5);
+	filter: blur(4px);
+}
+.box-toggle__second {
+	display: none;
+	background-image: url(http://lorempixel.com/output/cats-q-c-200-200-9.jpg);
+}
+.box-toggle__first--2 {
+	background-image: url(http://lorempixel.com/output/cats-q-g-200-200-8.jpg);
+}
+.box-toggle__second--2 {
+	background-image: url(http://lorempixel.com/output/cats-q-c-200-200-8.jpg);
+}
+.box-toggle.js-quick-toggle--is-active .box-toggle__first {
+	display: none;
+}
+.box-toggle.js-quick-toggle--is-active .box-toggle__second {
+	display: block;
 }
